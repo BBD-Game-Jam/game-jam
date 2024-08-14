@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.U2D;
 
 public class TerainGenerator : MonoBehaviour
 {
     public SpriteShapeController shape;
-    public int distanceBetweenPoints = 3;
-    public int heightOffset = 15;
-    public int curvature = 25;
     public Transform character;  // Reference to the character's transform
+    public Camera cam;
+    public int distanceBetweenPoints = 5;
+    public int heightOffset = 20;
+    public int curvature = 30;
     public float generationThreshold = 50f;  // Distance from the edge of the terrain to trigger new generation
-    public float deletionThreshold = 100f;  // Distance behind the character to delete points
+    public float deletionThreshold = 50f;  // Increased distance behind the character to delete points
 
     private float lowestPointYPos;
     private int lastPointIndex = 3;
@@ -21,31 +21,44 @@ public class TerainGenerator : MonoBehaviour
     {
         shape = GetComponent<SpriteShapeController>();
         lowestPointYPos = shape.spline.GetPosition(0).y;
+        if (cam == null)
+        {
+            cam = Camera.main;  // Fallback to main camera if not assigned
+        }
     }
 
     void Update()
     {
-        if (character != null && shape != null)
+        if (cam != null && shape != null)
         {
+            // Calculate camera's left and right edges in world space
+            float cameraLeftEdgeX = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane)).x;
+            float cameraRightEdgeX = cam.ViewportToWorldPoint(new Vector3(1, 0, cam.nearClipPlane)).x;
+
+            // Check if new points need to be generated
             float lastPointXPos = shape.spline.GetPosition(lastPointIndex).x;
-            if (character.position.x > lastPointXPos - generationThreshold)
+            if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
             {
                 GenerateNewPoint();
             }
 
+            // Check if old points need to be deleted
             float firstPointXPos = shape.spline.GetPosition(firstPointIndex).x;
-            if (character.position.x > firstPointXPos + deletionThreshold)
+            if (cameraLeftEdgeX / 4 > firstPointXPos + deletionThreshold)
             {
                 DeleteOldPoint();
+                Debug.Log($"First point pos: {firstPointXPos}");
+                Debug.Log($"Camera Left Edge X Position: {cameraLeftEdgeX}");
+                Debug.Log($"Camera Right Edge X Position: {cameraRightEdgeX}");
             }
         }
     }
 
     void GenerateNewPoint()
     {
-        // Generat new point positions using Perlin noise
+        // Generate new point positions using Perlin noise
         float xPos = shape.spline.GetPosition(lastPointIndex).x + distanceBetweenPoints;
-        float yPos = heightOffset * Mathf.PerlinNoise(lastPointIndex * Random.Range(5.0f, 15.0f), 0);
+        float yPos = heightOffset * Mathf.PerlinNoise(lastPointIndex * UnityEngine.Random.Range(5.0f, 15.0f), 0);
 
         // Insert point
         shape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, yPos, 0));
@@ -71,10 +84,8 @@ public class TerainGenerator : MonoBehaviour
             float newXPos = shape.spline.GetPosition(firstPointIndex).x;  // Access the new first point after deletion
             shape.spline.SetPosition(bottomLeftPointIndex, new Vector3(newXPos, lowestPointYPos, 0));
 
-            // Decrement lastPointIndex as we've removed one point from the spline
+            // Adjust the indices to account for the deletion
             lastPointIndex--;
-
-            // No need to increment firstPointIndex, as it's always pointing to the first upper point after the deletion
         }
     }
 }
