@@ -1,0 +1,4 @@
+repository "Pingu Slide@MichaelRolle@cloud"
+  path "/"
+    br "/main"
+    co "/main"
