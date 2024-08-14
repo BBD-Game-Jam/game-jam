@@ -7,7 +7,7 @@ public class PinguScript : MonoBehaviour
 {
     public Rigidbody2D rigidBody2D;
     public Camera cam;
-    public float speed;
+    public float minSpeed;
     public Vector3 offset;
 
     // Start is called before the first frame update
@@ -22,43 +22,20 @@ public class PinguScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Get the object's forward and right directions based on its rotation
-        Vector2 forward = transform.right;    // Forward direction (local up)
-        Vector2 right = -transform.up;   // Right direction (local right)
-
-        // Apply movement relative to the object's rotation
-        if (Input.GetKey(KeyCode.W))
+        float xVelocity;
+        float yVelocity;
+        yVelocity = rigidBody2D.velocity.y;
+        if (rigidBody2D.velocity.x < minSpeed)
         {
-            rigidBody2D.velocity = forward * speed;
+            xVelocity = minSpeed;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else
         {
-            rigidBody2D.velocity = -right * speed;
+            xVelocity = rigidBody2D.velocity.x;
         }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            rigidBody2D.velocity = -forward * speed;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            rigidBody2D.velocity = right * speed;
-        }
-
-        // Clamp rotation between -90 and 90 degrees
-        float clampedZRotation = ClampRotationZ(transform.eulerAngles.z);
-        transform.rotation = Quaternion.Euler(0, 0, clampedZRotation);
+        rigidBody2D.velocity = new Vector2(xVelocity, yVelocity);
 
         // Update the camera's position to follow the object
         cam.transform.position = transform.position + offset;
-    }
-
-    // Clamps the rotation to a range between -90 and 90 degrees
-    private float ClampRotationZ(float zRotation)
-    {
-        if (zRotation > 270)
-        {
-            zRotation -= 360;
-        }
-        return Mathf.Clamp(zRotation, 0f, 180f);
     }
 }
