@@ -6,40 +6,75 @@ using UnityEngine.U2D;
 public class TerainGenerator : MonoBehaviour
 {
     public SpriteShapeController shape;
-    public int scale = 100;
-    public int numPoints = 150;
     public int distanceBetweenPoints = 3;
-    public int heightOffset = 10;
-    public int curvature = 5;
+    public int heightOffset = 15;
+    public int curvature = 25;
+    public Transform character;  // Reference to the character's transform
+    public float generationThreshold = 50f;  // Distance from the edge of the terrain to trigger new generation
+    public float deletionThreshold = 100f;  // Distance behind the character to delete points
 
-    // Start is called before the first frame update
+    private float lowestPointYPos;
+    private int lastPointIndex = 3;
+    private readonly int firstPointIndex = 1;
+
     void Start()
     {
         shape = GetComponent<SpriteShapeController>();
+        lowestPointYPos = shape.spline.GetPosition(0).y;
+    }
 
-        shape.spline.SetPosition(0, shape.spline.GetPosition(0) + 10 * Vector3.left);
-        shape.spline.SetPosition(1, shape.spline.GetPosition(1) + 10 * Vector3.left);
-
-        shape.spline.SetPosition(2, shape.spline.GetPosition(2) + numPoints * distanceBetweenPoints * Vector3.right);
-        shape.spline.SetPosition(3, shape.spline.GetPosition(3) + numPoints * distanceBetweenPoints * Vector3.right );
-
-        for (int i = 0; i < numPoints; i++)
+    void Update()
+    {
+        if (character != null && shape != null)
         {
-            float xPos = shape.spline.GetPosition(i + 1).x + distanceBetweenPoints;
-            shape.spline.InsertPointAt(i + 2, new Vector3(xPos, heightOffset * Mathf.PerlinNoise(i * Random.Range(5.0f, 15.0f), 0), 0));
-        }
+            float lastPointXPos = shape.spline.GetPosition(lastPointIndex).x;
+            if (character.position.x > lastPointXPos - generationThreshold)
+            {
+                GenerateNewPoint();
+            }
 
-        for (int i = 2;  i < numPoints + 2; i++)
-        {
-            shape.spline.SetTangentMode(i, ShapeTangentMode.Continuous);
-            shape.spline.SetLeftTangent(i, new Vector3(-curvature / 10, 0, 0));
-            shape.spline.SetRightTangent(i, new Vector3(curvature / 10, 0, 0));
+            float firstPointXPos = shape.spline.GetPosition(firstPointIndex).x;
+            if (character.position.x > firstPointXPos + deletionThreshold)
+            {
+                DeleteOldPoint();
+            }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void GenerateNewPoint()
     {
-        
+        // Generat new point positions using Perlin noise
+        float xPos = shape.spline.GetPosition(lastPointIndex).x + distanceBetweenPoints;
+        float yPos = heightOffset * Mathf.PerlinNoise(lastPointIndex * Random.Range(5.0f, 15.0f), 0);
+
+        // Insert point
+        shape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, yPos, 0));
+        shape.spline.SetTangentMode(lastPointIndex + 1, ShapeTangentMode.Continuous);
+        shape.spline.SetLeftTangent(lastPointIndex + 1, new Vector3(-curvature / 10, 0, 0));
+        shape.spline.SetRightTangent(lastPointIndex + 1, new Vector3(curvature / 10, 0, 0));
+        lastPointIndex++;
+
+        // Update bottom right point to keep shape
+        int bottomRightPointIndex = shape.spline.GetPointCount() - 1;
+        shape.spline.SetPosition(bottomRightPointIndex, new Vector3(xPos, shape.spline.GetPosition(bottomRightPointIndex).y, 0));
+    }
+
+    void DeleteOldPoint()
+    {
+        if (shape.spline.GetPointCount() > 4 && firstPointIndex < lastPointIndex)  // Ensure we have enough points to delete
+        {
+            // Remove the leftmost upper point
+            shape.spline.RemovePointAt(firstPointIndex);
+
+            // Update the bottom left point to keep it aligned with the new first upper point
+            int bottomLeftPointIndex = 0;
+            float newXPos = shape.spline.GetPosition(firstPointIndex).x;  // Access the new first point after deletion
+            shape.spline.SetPosition(bottomLeftPointIndex, new Vector3(newXPos, lowestPointYPos, 0));
+
+            // Decrement lastPointIndex as we've removed one point from the spline
+            lastPointIndex--;
+
+            // No need to increment firstPointIndex, as it's always pointing to the first upper point after the deletion
+        }
     }
 }
