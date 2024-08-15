@@ -47,9 +47,6 @@ public class TerainGenerator : MonoBehaviour
             if (cameraLeftEdgeX / 4 > firstPointXPos + deletionThreshold)
             {
                 DeleteOldPoint();
-                Debug.Log($"First point pos: {firstPointXPos}");
-                Debug.Log($"Camera Left Edge X Position: {cameraLeftEdgeX}");
-                Debug.Log($"Camera Right Edge X Position: {cameraRightEdgeX}");
             }
         }
     }
