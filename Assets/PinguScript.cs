@@ -1,27 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PinguScript : MonoBehaviour
 {
     public Rigidbody2D rigidBody2D;
-    public Camera cam;
     public float minSpeed;
+    public int gravityScale;
     public Vector3 offset;
+
+    private float initialGravity;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (cam == null)
-        {
-            cam = Camera.main;
-        }
+        initialGravity = rigidBody2D.gravityScale;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Gravity
+        if (Input.GetKey(KeyCode.Space))
+        {
+            rigidBody2D.gravityScale = initialGravity * gravityScale;
+        } else
+        {
+            rigidBody2D.gravityScale = initialGravity;
+        }
+
         float xVelocity;
         float yVelocity;
         yVelocity = rigidBody2D.velocity.y;
@@ -34,8 +40,5 @@ public class PinguScript : MonoBehaviour
             xVelocity = rigidBody2D.velocity.x;
         }
         rigidBody2D.velocity = new Vector2(xVelocity, yVelocity);
-
-        // Update the camera's position to follow the object
-        cam.transform.position = transform.position + offset;
     }
 }
