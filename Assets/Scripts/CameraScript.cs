@@ -7,9 +7,6 @@ public class CameraScript : MonoBehaviour
     public Vector3 offsetFromCharacter;
     public float cameraHeightLimit = 1f;
     public float padding = 10f;  // Padding around the terrain and character
-    public float smoothTime = 0.5f;
-
-    Vector3 yVelocity = Vector3.zero;
 
     private void Start()
     {
@@ -28,7 +25,7 @@ public class CameraScript : MonoBehaviour
                 (character.position.y / 2) + padding :
                 (cameraHeightLimit / 2) + padding;
 
-            // Smoothly adjust the orthographic size
+            // Adjust the orthographic size
             cam.orthographicSize = targetSize;
 
             // Follow the character
