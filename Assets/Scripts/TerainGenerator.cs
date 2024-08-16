@@ -5,7 +5,9 @@ using UnityEngine.U2D;
 public class TerainGenerator : MonoBehaviour
 {
     public SpriteShapeController shape;
+    public Rigidbody2D terrainRG;
     public Transform character;  // Reference to the character's transform
+    public GameObject pingu;
     public Camera cam;
     public int distanceBetweenPoints = 5;
     public int heightOffset = 20;
@@ -14,7 +16,7 @@ public class TerainGenerator : MonoBehaviour
     public float deletionThreshold = 50f;  // Increased distance behind the character to delete points
 
     private float lowestPointYPos;
-    private int lastPointIndex = 3;
+    private int lastPointIndex = 4;
     private readonly int firstPointIndex = 1;
 
     void Start()
@@ -38,13 +40,15 @@ public class TerainGenerator : MonoBehaviour
             // Check if new points need to be generated
             float lastPointXPos = shape.spline.GetPosition(lastPointIndex).x;
             if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
+            if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
             {
                 GenerateNewPoint();
             }
 
             // Check if old points need to be deleted
-            float firstPointXPos = shape.spline.GetPosition(firstPointIndex).x;
-            if (cameraLeftEdgeX / 4 > firstPointXPos + deletionThreshold)
+            float secondPointXpos = shape.spline.GetPosition(firstPointIndex+1).x;
+            if (cameraLeftEdgeX / 4 > secondPointXpos + deletionThreshold)
+            if (cameraLeftEdgeX / 4 > secondPointXpos + deletionThreshold)
             {
                 DeleteOldPoint();
             }
