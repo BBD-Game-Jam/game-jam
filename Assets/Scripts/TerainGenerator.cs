@@ -61,7 +61,7 @@ public class TerainGenerator : MonoBehaviour
         float xVelocity = rg.velocity.x;
         /* Debug.Log($"Hi {xVelocity}");*/
         /*transform.Translate(Vector3.left * xVelocity * Time.deltaTime);*/
-        /*terrainRG.velocity = new Vector2(-xVelocity, 0); */
+        terrainRG.velocity = new Vector2(-xVelocity, 0);
     }
 
     void GenerateNewPoint()
