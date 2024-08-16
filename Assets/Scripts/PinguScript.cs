@@ -41,6 +41,15 @@ public class PinguScript : MonoBehaviour
         }
         rigidBody2D.velocity = new Vector2(xVelocity, yVelocity);
 
-       /* Debug.Log(rigidBody2D.velocity.x);*/
+        /* Debug.Log(rigidBody2D.velocity.x);*/
+
+        Center();
+    }
+
+    void Center()
+    {
+        // Ensure the object stays at x = 0
+        /*rigidBody2D.position = new Vector2(0, rigidBody2D.position.y);*/
+        /*rigidBody2D.velocity = new Vector2(-xVelocity, 0);*/
     }
 }

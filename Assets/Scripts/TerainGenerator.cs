@@ -5,6 +5,7 @@ using UnityEngine.U2D;
 public class TerainGenerator : MonoBehaviour
 {
     public SpriteShapeController shape;
+    public Rigidbody2D terrainRG;
     public Transform character;  // Reference to the character's transform
     public GameObject pingu;
     public Camera cam;
@@ -51,16 +52,17 @@ public class TerainGenerator : MonoBehaviour
             }
         }
 
-        /*Center();*/
+        Center();
     }
 
-   /* void Center()
+    void Center()
     {
         Rigidbody2D rg = pingu.GetComponent<Rigidbody2D>();
         float xVelocity = rg.velocity.x;
-        Debug.Log($"Hi {xVelocity}");
-        transform.Translate(Vector3.left * xVelocity * Time.deltaTime);
-    }*/
+        /* Debug.Log($"Hi {xVelocity}");*/
+        /*transform.Translate(Vector3.left * xVelocity * Time.deltaTime);*/
+        /*terrainRG.velocity = new Vector2(-xVelocity, 0); */
+    }
 
     void GenerateNewPoint()
     {
