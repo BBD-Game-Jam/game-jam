@@ -40,6 +40,7 @@ public class TerainGenerator : MonoBehaviour
             // Check if new points need to be generated
             float lastPointXPos = shape.spline.GetPosition(lastPointIndex).x;
             if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
+            if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
             {
                 GenerateNewPoint();
             }
@@ -47,21 +48,11 @@ public class TerainGenerator : MonoBehaviour
             // Check if old points need to be deleted
             float secondPointXpos = shape.spline.GetPosition(firstPointIndex+1).x;
             if (cameraLeftEdgeX / 4 > secondPointXpos + deletionThreshold)
+            if (cameraLeftEdgeX / 4 > secondPointXpos + deletionThreshold)
             {
                 DeleteOldPoint();
             }
         }
-
-        //Center();
-    }
-
-    void Center()
-    {
-        Rigidbody2D rg = pingu.GetComponent<Rigidbody2D>();
-        float xVelocity = rg.velocity.x;
-        /* Debug.Log($"Hi {xVelocity}");*/
-        /*transform.Translate(Vector3.left * xVelocity * Time.deltaTime);*/
-        terrainRG.velocity = new Vector2(-xVelocity, 0);
     }
 
     void GenerateNewPoint()

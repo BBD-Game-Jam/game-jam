@@ -13,6 +13,18 @@ public class PinguScript : MonoBehaviour
     void Start()
     {
         initialGravity = rigidBody2D.gravityScale;
+        float xVelocity;
+        float yVelocity;
+        yVelocity = rigidBody2D.velocity.y;
+        if (rigidBody2D.velocity.x < minSpeed)
+        {
+            xVelocity = minSpeed;
+        }
+        else
+        {
+            xVelocity = rigidBody2D.velocity.x;
+        }
+        rigidBody2D.velocity = new Vector2(xVelocity, yVelocity);
     }
 
     // Update is called once per frame
