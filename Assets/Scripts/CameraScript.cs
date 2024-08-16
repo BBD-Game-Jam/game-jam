@@ -1,16 +1,15 @@
 using UnityEngine;
-using UnityEngine.U2D;
 
 public class CameraScript : MonoBehaviour
 {
     public Camera cam;
     public Transform character;
-    public SpriteShapeController terrain;
     public Vector3 offsetFromCharacter;
+    public float cameraHeightLimit = 1f;
     public float padding = 10f;  // Padding around the terrain and character
+    public float smoothTime = 0.5f;
 
-    private float terrainHeight;
-    private float cameraHeight;
+    Vector3 yVelocity = Vector3.zero;
 
     private void Start()
     {
@@ -22,17 +21,19 @@ public class CameraScript : MonoBehaviour
 
     private void Update()
     {
-        if (character != null && terrain != null)
+        if (character != null)
         {
-            // Follow the character
-            float cameraX = character.position.x + offsetFromCharacter.x;
-            float cameraY = character.position.y + offsetFromCharacter.y;
-            float cameraZ = offsetFromCharacter.z;
+            // Increase the height of the camera based on where the character is
+            float targetSize = character.position.y > cameraHeightLimit ?
+                (character.position.y / 2) + padding :
+                (cameraHeightLimit / 2) + padding;
 
-            // Set the camera's new position
-            Vector3 newCameraPosition = new(cameraX, cameraY, cameraZ);
-            cam.transform.position = newCameraPosition;
-            cam.orthographicSize = character.position.y;
+            // Smoothly adjust the orthographic size
+            cam.orthographicSize = targetSize;
+
+            // Follow the character
+            float targetY = cam.orthographicSize;
+            cam.transform.position = new Vector3(character.position.x + offsetFromCharacter.x, targetY, character.position.z + offsetFromCharacter.z);
         }
     }
 }

@@ -6,7 +6,6 @@ public class PinguScript : MonoBehaviour
     public Rigidbody2D rigidBody2D;
     public float minSpeed;
     public int gravityScale;
-    public Vector3 offset;
 
     private float initialGravity;
 
@@ -52,16 +51,5 @@ public class PinguScript : MonoBehaviour
             xVelocity = rigidBody2D.velocity.x;
         }
         rigidBody2D.velocity = new Vector2(xVelocity, yVelocity);
-
-        /* Debug.Log(rigidBody2D.velocity.x);*/
-
-        /*Center();*/
-    }
-
-    void Center()
-    {
-        // Ensure the object stays at x = 0
-        /*rigidBody2D.position = new Vector2(0, rigidBody2D.position.y);*/
-        /*rigidBody2D.velocity = new Vector2(-xVelocity, 0);*/
     }
 }
