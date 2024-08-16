@@ -39,20 +39,20 @@ public class TerainGenerator : MonoBehaviour
 
             // Check if new points need to be generated
             float lastPointXPos = shape.spline.GetPosition(lastPointIndex).x;
-            if (cameraRightEdgeX / 2 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
+            if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
             {
                 GenerateNewPoint();
             }
 
             // Check if old points need to be deleted
             float secondPointXpos = shape.spline.GetPosition(firstPointIndex+1).x;
-            if (cameraLeftEdgeX / 2 > secondPointXpos + deletionThreshold)
+            if (cameraLeftEdgeX / 4 > secondPointXpos + deletionThreshold)
             {
                 DeleteOldPoint();
             }
         }
 
-        Center();
+        //Center();
     }
 
     void Center()
