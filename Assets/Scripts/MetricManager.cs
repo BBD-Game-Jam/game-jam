@@ -13,6 +13,7 @@ public class MetricManager : MonoBehaviour
     public TextMeshProUGUI velocityY;
     public TextMeshProUGUI gravity;
     public TextMeshProUGUI time;
+    public TextMeshProUGUI velocityAng;
     float playTime = 0;
     // Start is called before the first frame update
     void Start()
@@ -31,8 +32,8 @@ public class MetricManager : MonoBehaviour
         velocity.text = $"Velocity: {rg.velocity.magnitude} m/s";
         velocityX.text = $"Vx: {rg.velocity.x} m/s";
         velocityY.text = $"Vy: {rg.velocity.y} m/s";
+        velocityAng.text = $"Vang: {rg.angularVelocity} m/s";
         gravity.text = $"Gravity: {rg.gravityScale*9.8} m/s^2";
-        
     }
 
     void UpdateTime()
