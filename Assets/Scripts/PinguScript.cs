@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
-using static UnityEngine.GridBrushBase;
 
 public class PinguScript : MonoBehaviour
 {
