@@ -13,10 +13,14 @@ public class FloatingOrigin : MonoBehaviour
 
             character.position -= offset;
 
+            Camera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            cam.transform.position -= offset;
+
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Environment"))
             {
                 obj.transform.position -= offset;
             }
+            
         }
     }
 }

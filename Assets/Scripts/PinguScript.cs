@@ -71,13 +71,13 @@ public class PinguScript : MonoBehaviour
 
     private void Accelerate(InputAction.CallbackContext context)
     {
-        Debug.Log("Accelerate");
+        //Debug.Log("Accelerate");
         rigidBody2D.gravityScale = initialGravity * gravityScale;
     }
 
     private void StopAccelerating(InputAction.CallbackContext context)
     {
-        Debug.Log("Stop Accelerating");
+        //Debug.Log("Stop Accelerating");
         rigidBody2D.gravityScale = initialGravity;
     }
 
