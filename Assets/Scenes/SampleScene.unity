@@ -892,8 +892,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody2D: {fileID: 429131129}
   minSpeed: 10
+  torqueAmount: 8
+  rotationDamping: 0.98
+  maxRotationSpeed: 400
   gravityScale: 10
-  rotationSpeed: 1.5
 --- !u!1 &495276841
 GameObject:
   m_ObjectHideFlags: 0
