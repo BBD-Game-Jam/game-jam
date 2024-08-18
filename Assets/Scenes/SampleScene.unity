@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 219000386}
   - component: {fileID: 219000385}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: EnemyDistance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -488,16 +488,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219000383}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1270057159}
+  m_Father: {fileID: 727970377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 865, y: 627}
+  m_AnchoredPosition: {x: 882, y: 623}
   m_SizeDelta: {x: 700, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &219000385
@@ -1542,7 +1542,7 @@ RectTransform:
   - {fileID: 495276842}
   - {fileID: 1675608637}
   - {fileID: 787803296}
-  - {fileID: 1270057159}
+  - {fileID: 219000384}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
