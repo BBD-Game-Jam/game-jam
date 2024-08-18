@@ -33,11 +33,7 @@ public class CatchPinguScript : MonoBehaviour
             yield return new WaitForSeconds(10);
             if (limitCount <= upperLimit)
             {
-                // enemySpeed *= difficulty;
-                Debug.Log("Enemy speed before change: " + enemySpeed);
-                Debug.Log("Difficulty after change: " + difficulty);
-                enemySpeed = enemySpeed * difficulty;
-                Debug.Log("Enemy speed after change: " + enemySpeed);
+                enemySpeed *= difficulty;
                 limitCount++;
             }
         }
@@ -46,11 +42,12 @@ public class CatchPinguScript : MonoBehaviour
     void Update()
     {
         transform.position += Vector3.right * (enemySpeed * Time.deltaTime);
-        if ((pingu.transform.position.x - transform.position.x) > followDistance)
-        {
-            transform.position = new Vector3(pingu.transform.position.x - followDistance, pingu.transform.position.y, transform.position.z);
+        // The follow distance feels like a bad mechanic
+        // if ((pingu.transform.position.x - transform.position.x) > followDistance)
+        // {
+        //     transform.position = new Vector3(pingu.transform.position.x - followDistance, pingu.transform.position.y, transform.position.z);
 
-        }
+        // }
         transform.position = new Vector3(transform.position.x, pingu.transform.position.y, transform.position.z);
         gameOver();
 

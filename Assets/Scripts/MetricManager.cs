@@ -7,7 +7,9 @@ using UnityEngine;
 public class MetricManager : MonoBehaviour
 {
     public GameObject character;
+    public GameObject enemy;
     public TextMeshProUGUI score;
+    public TextMeshProUGUI enemyDistance;
     public TextMeshProUGUI velocity;
     public TextMeshProUGUI velocityX;
     public TextMeshProUGUI velocityY;
@@ -24,6 +26,10 @@ public class MetricManager : MonoBehaviour
     void updateScore()
     {
         score.text = $"Score: {character.transform.position.x}";
+    }
+
+    void updateDistance(){
+        enemyDistance.text = $"Enemy distance: {(int)(character.transform.position.x - enemy.transform.position.x)}";
     }
 
     void updateVelocity()
@@ -48,5 +54,6 @@ public class MetricManager : MonoBehaviour
         updateScore();
         updateVelocity();
         UpdateTime();
+        updateDistance();
     }
 }
