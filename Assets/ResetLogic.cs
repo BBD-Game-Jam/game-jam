@@ -16,7 +16,6 @@ public class FloatingOrigin : MonoBehaviour
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Environment"))
             {
                 obj.transform.position -= offset;
-                Debug.Log(obj.transform.position);
             }
         }
     }
