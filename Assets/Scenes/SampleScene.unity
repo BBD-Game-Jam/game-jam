@@ -758,7 +758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b900acc3ee4d534b80215ef7a5ee24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnDistance: 4
+  minSpawnDistance: 8
   maxSpawnDistance: 20
   spawnRate: 0
   spawnWidthSeparation: 2.2
@@ -1098,7 +1098,7 @@ GameObject:
   - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Environment
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

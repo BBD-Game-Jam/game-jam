@@ -40,7 +40,15 @@ public class CloudSpawner : MonoBehaviour
         {
             SpawnClouds();
             lastSpawnXPosition = currentSpawnXPosition; // Update last spawn position
+            
         }
+        else if ((currentSpawnXPosition - lastSpawnXPosition) < 0)
+        {
+            lastSpawnXPosition = currentSpawnXPosition;
+            Debug.Log("ResetSpawn");
+        }
+
+       // Debug.Log($"Diff: {currentSpawnXPosition - lastSpawnXPosition}");
     }
 
     [ContextMenu("Spawn Clouds")]
@@ -50,7 +58,7 @@ public class CloudSpawner : MonoBehaviour
         float spawnHeightDensity = Random.Range(0.0001f, maxSpawnHeightDensity);
         float maxSpawnHeight = cam.ViewportToWorldPoint(new Vector3(0, 1, cam.nearClipPlane)).y + generationThresholdY;
         int numClouds = (int)((maxSpawnHeight / spawnHeightSeparation * spawnHeightDensity));
-        // Debug.Log($"MaxSpH: {maxSpawnHeight}\nSpHSep: {spawnHeightSeparation}\nSpHDen: {spawnHeightDensity}\nclouds: {numClouds}");
+        //Debug.Log($"MaxSpH: {maxSpawnHeight}\nSpHSep: {spawnHeightSeparation}\nSpHDen: {spawnHeightDensity}\nclouds: {numClouds}");
 
         for (int i = 0; i < numClouds; i++)
         {

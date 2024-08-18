@@ -41,6 +41,10 @@ public class CoinSpawner : MonoBehaviour
             SpawnCoins();
             lastSpawnXPosition = currentSpawnXPosition; // Update last spawn position
         }
+        else if ((currentSpawnXPosition - lastSpawnXPosition) < 0)
+        {
+            lastSpawnXPosition = currentSpawnXPosition;
+        }
     }
 
     [ContextMenu("Spawn Coins")]
