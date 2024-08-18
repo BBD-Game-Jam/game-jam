@@ -1,11 +1,8 @@
-using System;
 using UnityEngine;
 using UnityEngine.U2D;
 
 public class TerainGenerator : MonoBehaviour
 {
-    public SpriteShapeController shape;
-    public Rigidbody2D terrainRG;
     public Transform character;  // Reference to the character's transform
     public GameObject pingu;
     public Camera cam;
@@ -18,11 +15,16 @@ public class TerainGenerator : MonoBehaviour
     private float lowestPointYPos;
     private int lastPointIndex = 4;
     private readonly int firstPointIndex = 1;
+    private SpriteShapeController terrainShape;
+    private Rigidbody2D terrainRigidBody;
+    private EdgeCollider2D edgeCollider;
 
     void Start()
     {
-        shape = GetComponent<SpriteShapeController>();
-        lowestPointYPos = shape.spline.GetPosition(0).y;
+        terrainShape = GetComponent<SpriteShapeController>();
+        terrainRigidBody = GetComponent<Rigidbody2D>();
+        edgeCollider = GetComponent<EdgeCollider2D>();
+        lowestPointYPos = terrainShape.spline.GetPosition(0).y;
         if (cam == null)
         {
             cam = Camera.main;  // Fallback to main camera if not assigned
@@ -31,24 +33,22 @@ public class TerainGenerator : MonoBehaviour
 
     void Update()
     {
-        if (cam != null && shape != null)
+        if (cam != null && terrainShape != null)
         {
             // Calculate camera's left and right edges in world space
             float cameraLeftEdgeX = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane)).x;
             float cameraRightEdgeX = cam.ViewportToWorldPoint(new Vector3(1, 0, cam.nearClipPlane)).x;
 
             // Check if new points need to be generated
-            float lastPointXPos = shape.spline.GetPosition(lastPointIndex).x;
-            if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
-            if (cameraRightEdgeX / 4 > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
+            float lastPointXPos = terrainShape.transform.position.x + terrainShape.spline.GetPosition(lastPointIndex).x;
+            if (cameraRightEdgeX > lastPointXPos - generationThreshold) // Don't ask me why I divide by four its the only way it works XD
             {
                 GenerateNewPoint();
             }
 
             // Check if old points need to be deleted
-            float secondPointXpos = shape.spline.GetPosition(firstPointIndex+1).x;
-            if (cameraLeftEdgeX / 4 > secondPointXpos + deletionThreshold)
-            if (cameraLeftEdgeX / 4 > secondPointXpos + deletionThreshold)
+            float secondPointXpos = terrainShape.transform.position.x + terrainShape.spline.GetPosition(firstPointIndex+1).x;
+            if (cameraLeftEdgeX > secondPointXpos + deletionThreshold)
             {
                 DeleteOldPoint();
             }
@@ -58,35 +58,55 @@ public class TerainGenerator : MonoBehaviour
     void GenerateNewPoint()
     {
         // Generate new point positions using Perlin noise
-        float xPos = shape.spline.GetPosition(lastPointIndex).x + distanceBetweenPoints;
+        float xPos = terrainShape.spline.GetPosition(lastPointIndex).x + distanceBetweenPoints;
         float yPos = heightOffset * Mathf.PerlinNoise(lastPointIndex * UnityEngine.Random.Range(5.0f, 15.0f), 0);
 
         // Insert point
-        shape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, yPos, 0));
-        shape.spline.SetTangentMode(lastPointIndex + 1, ShapeTangentMode.Continuous);
-        shape.spline.SetLeftTangent(lastPointIndex + 1, new Vector3(-curvature / 10, 0, 0));
-        shape.spline.SetRightTangent(lastPointIndex + 1, new Vector3(curvature / 10, 0, 0));
+        terrainShape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, yPos, 0));
+        terrainShape.spline.SetTangentMode(lastPointIndex + 1, ShapeTangentMode.Continuous);
+        terrainShape.spline.SetLeftTangent(lastPointIndex + 1, new Vector3(-curvature / 10, 0, 0));
+        terrainShape.spline.SetRightTangent(lastPointIndex + 1, new Vector3(curvature / 10, 0, 0));
         lastPointIndex++;
 
         // Update bottom right point to keep shape
-        int bottomRightPointIndex = shape.spline.GetPointCount() - 1;
-        shape.spline.SetPosition(bottomRightPointIndex, new Vector3(xPos, shape.spline.GetPosition(bottomRightPointIndex).y, 0));
+        int bottomRightPointIndex = terrainShape.spline.GetPointCount() - 1;
+        terrainShape.spline.SetPosition(bottomRightPointIndex, new Vector3(xPos, terrainShape.spline.GetPosition(bottomRightPointIndex).y, 0));
     }
 
     void DeleteOldPoint()
     {
-        if (shape.spline.GetPointCount() > 4 && firstPointIndex < lastPointIndex)  // Ensure we have enough points to delete
+        if (terrainShape.spline.GetPointCount() > 4 && firstPointIndex < lastPointIndex)  // Ensure we have enough points to delete
         {
             // Remove the leftmost upper point
-            shape.spline.RemovePointAt(firstPointIndex);
+            terrainShape.spline.RemovePointAt(firstPointIndex);
 
             // Update the bottom left point to keep it aligned with the new first upper point
             int bottomLeftPointIndex = 0;
-            float newXPos = shape.spline.GetPosition(firstPointIndex).x;  // Access the new first point after deletion
-            shape.spline.SetPosition(bottomLeftPointIndex, new Vector3(newXPos, lowestPointYPos, 0));
+            float newXPos = terrainShape.spline.GetPosition(firstPointIndex).x;  // Access the new first point after deletion
+            terrainShape.spline.SetPosition(bottomLeftPointIndex, new Vector3(newXPos, lowestPointYPos, 0));
 
             // Adjust the indices to account for the deletion
             lastPointIndex--;
+
+            // Ensure the x position of the shape is the same as the left most point
+            AdjustShapePosition();
         }
     }
+
+    void AdjustShapePosition()
+    {
+        float offsetX = terrainShape.spline.GetPosition(firstPointIndex).x;
+
+        Spline spline = terrainShape.spline;
+
+        // Shift shape right
+        terrainShape.transform.Translate(offsetX, 0, 0);
+
+        //Shift all points left
+        for (int i = 0; i < spline.GetPointCount(); i++)
+        {
+            spline.SetPosition(i, spline.GetPosition(i) - new Vector3(offsetX, 0, 0));
+        }
+    }
+
 }
