@@ -221,7 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pingu: {fileID: 429131127}
   gameOverUI: {fileID: 787803295}
-  enemySpeed: 2
+  enemySpeed: 3.5
   upperLimit: 5
   pausedFlag: 0
   difficulty: 1.5
@@ -1405,6 +1405,7 @@ RectTransform:
   - {fileID: 2100312648}
   - {fileID: 495276842}
   - {fileID: 1675608637}
+  - {fileID: 787803296}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
