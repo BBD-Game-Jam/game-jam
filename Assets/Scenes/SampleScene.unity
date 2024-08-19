@@ -932,6 +932,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 328523503}
   m_CullTransparentMesh: 1
+--- !u!1 &371204654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 371204656}
+  - component: {fileID: 371204655}
+  m_Layer: 0
+  m_Name: Cloud Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &371204655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371204654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b900acc3ee4d534b80215ef7a5ee24d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpawnDistance: 8
+  maxSpawnDistance: 20
+  spawnRate: 0
+  spawnWidthSeparation: 2.2
+  spawnHeightSeparation: 4.5
+  generationThresholdX: 20
+  generationThresholdY: 75
+  maxSpawnHeightDensity: 0.033
+  cloudHeight: 4.5
+  minHeight: 30
+  cam: {fileID: 519420031}
+  clouds: {fileID: 1738368980424368172, guid: ae9285ad6519c4d419ce0b1b8517a09f, type: 3}
+--- !u!4 &371204656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371204654}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.075652, y: 42.667324, z: 900.0077}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &429131127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,11 +1108,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1773139637
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.2653524, g: 0.80410177, b: 0.8396226, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c29af658c7c25cc45bd922668fc12dfa, type: 3}
+  m_Color: {r: 0.49803925, g: 0.49803925, b: 0.49803925, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1076,7 +1132,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 41.323006, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1095,8 +1151,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody2D: {fileID: 429131129}
   minSpeed: 10
+  torqueAmount: 8
+  rotationDamping: 0.98
+  maxRotationSpeed: 400
   gravityScale: 10
-  rotationSpeed: 1.5
 --- !u!1 &495276841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,7 +1303,7 @@ GameObject:
   - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Environment
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1268,7 +1326,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.6225347, g: 0.9746506, b: 0.98490566, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2380,7 +2438,7 @@ SpriteShapeRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Color: {r: 0, g: 0.18848504, b: 0.9339623, a: 1}
+  m_Color: {r: 0, g: 0.35222167, b: 0.93333334, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: b281b91a70a624a0da1c43adc1c30c7b, type: 3}
   m_Sprites:
@@ -2661,6 +2719,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2035268231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2035268233}
+  - component: {fileID: 2035268232}
+  m_Layer: 0
+  m_Name: Coin Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2035268232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035268231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c0c444481ad8c4c8de91b681f20dc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpawnDistance: 10
+  maxSpawnDistance: 36
+  spawnRate: 0
+  spawnWidthSeparation: 2.2
+  spawnHeightSeparation: 2.2
+  generationThresholdX: 20
+  generationThresholdY: 75
+  maxSpawnHeightDensity: 0.025
+  coinHeight: 2
+  minHeight: 50
+  cam: {fileID: 519420031}
+  coins: {fileID: 7952657393001297076, guid: 7e2db9b8b9a0813479f01791567c1ae0, type: 3}
+--- !u!4 &2035268233
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035268231}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -43.67433, y: 67.92535, z: 0.1542319}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2100312647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2807,3 +2921,6 @@ SceneRoots:
   - {fileID: 22784356}
   - {fileID: 1202104940}
   - {fileID: 148612955}
+  - {fileID: 543321534}
+  - {fileID: 2035268233}
+  - {fileID: 371204656}
