@@ -20,7 +20,7 @@ public class MetricManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     void updateScore()
@@ -28,8 +28,16 @@ public class MetricManager : MonoBehaviour
         score.text = $"Score: {character.transform.position.x}";
     }
 
-    void updateDistance(){
-        enemyDistance.text = $"Enemy distance: {(int)(character.transform.position.x - enemy.transform.position.x)}";
+    void updateDistance()
+    {
+        if (enemy.transform.position.x < 0)
+        {
+            enemyDistance.text = $"{(int)(character.transform.position.x + enemy.transform.position.x)}m";
+        }
+        else
+        {
+            enemyDistance.text = $"{(int)(character.transform.position.x - enemy.transform.position.x)}m";
+        }
     }
 
     void updateVelocity()
@@ -39,7 +47,7 @@ public class MetricManager : MonoBehaviour
         velocityX.text = $"Vx: {rg.velocity.x} m/s";
         velocityY.text = $"Vy: {rg.velocity.y} m/s";
         velocityAng.text = $"Vang: {rg.angularVelocity} m/s";
-        gravity.text = $"Gravity: {rg.gravityScale*9.8} m/s^2";
+        gravity.text = $"Gravity: {rg.gravityScale * 9.8} m/s^2";
     }
 
     void UpdateTime()
