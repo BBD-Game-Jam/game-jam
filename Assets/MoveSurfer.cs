@@ -17,4 +17,9 @@ public class MoveSurfer : MonoBehaviour
         var test = transform.position.x;
         transform.position = new Vector3(test + 0.01f, transform.position.y, transform.position.z);
     }
+
+    private void OnBecameInvisible()
+    {
+        transform.position = new Vector3(-9, 1,0);
+    }
 }
