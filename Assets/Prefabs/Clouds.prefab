@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 832959814098568376}
   - component: {fileID: 2266106681256698860}
+  - component: {fileID: 1687032864779262702}
   m_Layer: 0
   m_Name: Clouds
   m_TagString: Environment
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1738368980424368172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.85465, y: 29.540972, z: 6.9565654}
+  m_LocalPosition: {x: 0, y: 0, z: 6.9565654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47,6 +48,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   deletionThreshold: 300
+--- !u!70 &1687032864779262702
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738368980424368172}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 6.074572e-10, y: 0.0050957208}
+  m_Size: {x: 6.0054092, y: 2.9967597}
+  m_Direction: 1
 --- !u!1001 &2791691644904176623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57,11 +93,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2145662957006767430, guid: 88f4692e6ec9c9f4a8d6d656dccffd66, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.744021
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2145662957006767430, guid: 88f4692e6ec9c9f4a8d6d656dccffd66, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 35.21524
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2145662957006767430, guid: 88f4692e6ec9c9f4a8d6d656dccffd66, type: 3}
       propertyPath: m_LocalPosition.z
@@ -98,6 +134,10 @@ PrefabInstance:
     - target: {fileID: 2587279016497281700, guid: 88f4692e6ec9c9f4a8d6d656dccffd66, type: 3}
       propertyPath: m_Name
       value: Cloud
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461035094366349576, guid: 88f4692e6ec9c9f4a8d6d656dccffd66, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
