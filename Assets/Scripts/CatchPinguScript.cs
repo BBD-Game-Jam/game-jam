@@ -12,21 +12,14 @@ public class CatchPinguScript : MonoBehaviour
     public GameObject gameOverUI;
     private Rigidbody2D enemyRigidBody;
 
-    public float enemySpeed = 20f;
+    public float enemySpeed = 15f;
 
     public int upperLimit = 5;
     public bool pausedFlag = false;
-    public float difficulty = 2f;
+    public float difficulty = 1.25f;
 
-    public int followDistance = 100;
-
-    public float appearanceDistance;
-    public float baseSpeed = 10f; // Base speed for the enemy
-    private float maxSpeed; // Maximum speed for the enemy
-    public float acceleration = 5f; // How quickly the enemy speeds up
-
-    private List<float> msList = new List<float>();
-    private float pinguVelocityVecX;
+    private float enemyBaseSpeed;
+    private bool gameOverFlag = false;
 
     void Start()
     {
@@ -34,7 +27,7 @@ public class CatchPinguScript : MonoBehaviour
         enemyRigidBody.isKinematic = true;
         StartCoroutine(ChangeValueRoutine());
         initializePosition();
-        maxSpeed = 0;
+        enemyBaseSpeed = enemySpeed;
         // StartCoroutine(AverageSpeedRoutine());
 
     }
@@ -47,7 +40,7 @@ public class CatchPinguScript : MonoBehaviour
             yield return new WaitForSeconds(10);
             if (limitCount <= upperLimit)
             {
-                enemySpeed *= difficulty;
+                enemyBaseSpeed *= difficulty;
                 limitCount++;
             }
         }
@@ -55,42 +48,21 @@ public class CatchPinguScript : MonoBehaviour
 
     void Update()
     {
-        enemySpeed = 25f;
+        enemySpeed = enemyBaseSpeed;
         Vector3 predictedPosition = pingu.transform.position + new Vector3(pingu.GetComponent<Rigidbody2D>().velocity.x, pingu.GetComponent<Rigidbody2D>().velocity.y, 0);
         float distanceToPlayer = Vector3.Distance(transform.position, predictedPosition);
-        if (distanceToPlayer > 200)
+        if (distanceToPlayer > 200f)
         {
-            enemySpeed = 50f;
+            enemySpeed = 60f;
         }
-
-        enemyRigidBody.velocity = new Vector2(enemySpeed, enemyRigidBody.velocity.y);
-
-        // float playerSpeed = pingu.GetComponent<Rigidbody2D>().velocity.x;
-        // // if (maxSpeed < playerSpeed)
-        // // {
-        // //     maxSpeed = playerSpeed + 2f;
-        // // }
-        // maxSpeed = playerSpeed;
-
-        // Vector3 predictedPosition = pingu.transform.position + new Vector3(pingu.GetComponent<Rigidbody2D>().velocity.x, pingu.GetComponent<Rigidbody2D>().velocity.y, 0);
-        // float distanceToPlayer = Vector3.Distance(transform.position, predictedPosition);
-
-        // if (distanceToPlayer > 200f)
-        // {
-        //     Debug.Log("Catch up mode");
-        //     enemyRigidBody.velocity = new Vector2(Mathf.Min(maxSpeed, enemyRigidBody.velocity.x + acceleration), enemyRigidBody.velocity.y);
-        // }
-        // else if (distanceToPlayer < 50f)
-        // {
-        //     Debug.Log("Slow down mode");
-        //     enemyRigidBody.velocity = new Vector2(Mathf.Max(baseSpeed, enemyRigidBody.velocity.x - acceleration), enemyRigidBody.velocity.y);
-        // }
-        // else
-        // {
-        //     Debug.Log("Neutral mode");
-        //     enemyRigidBody.velocity = new Vector2(Mathf.Clamp(enemyRigidBody.velocity.x + acceleration, baseSpeed, maxSpeed), enemyRigidBody.velocity.y);
-        // }
-
+        if (gameOverFlag)
+        {
+            enemyRigidBody.velocity = new Vector2(pingu.GetComponent<Rigidbody2D>().velocity.x, pingu.GetComponent<Rigidbody2D>().velocity.y);
+        }
+        else
+        {
+            enemyRigidBody.velocity = new Vector2(enemySpeed, pingu.GetComponent<Rigidbody2D>().velocity.y);
+        }
 
         gameOver();
 
@@ -99,6 +71,7 @@ public class CatchPinguScript : MonoBehaviour
     {
         if (pingu.transform.position.x <= gameObject.transform.position.x)
         {
+            gameOverFlag = true;
             // Debug.Log("Game over at " + transform.position.x);
             gameOverUI.SetActive(true);
         }
