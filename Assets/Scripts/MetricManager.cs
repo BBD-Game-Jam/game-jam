@@ -8,8 +8,10 @@ using UnityEngine;
 public class MetricManager : MonoBehaviour
 {
     public GameObject character;
+    public GameObject enemy;
     public TextMeshProUGUI score;
     public TextMeshProUGUI distance;
+    public TextMeshProUGUI enemyDistance;
     public TextMeshProUGUI velocity;
     public TextMeshProUGUI velocityX;
     public TextMeshProUGUI velocityY;
@@ -26,10 +28,10 @@ public class MetricManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
-    private void updateDistance()
+    private void updatePlayerDistance()
     {
         if (character.transform.position.x < oldX)
         {
@@ -48,6 +50,18 @@ public class MetricManager : MonoBehaviour
         score.text = $"Score: {finalScore}";
     }
 
+    void updateEnemyDistance()
+    {
+        if (enemy.transform.position.x < 0)
+        {
+            enemyDistance.text = $"{(int)(character.transform.position.x + enemy.transform.position.x)}m";
+        }
+        else
+        {
+            enemyDistance.text = $"{(int)(character.transform.position.x - enemy.transform.position.x)}m";
+        }
+    }
+
     [ContextMenu("Increase Score")]
     public void addPoints()
     {
@@ -61,7 +75,7 @@ public class MetricManager : MonoBehaviour
         velocityX.text = $"Vx: {rg.velocity.x} m/s";
         velocityY.text = $"Vy: {rg.velocity.y} m/s";
         velocityAng.text = $"Vang: {rg.angularVelocity} m/s";
-        gravity.text = $"Gravity: {rg.gravityScale*9.8} m/s^2";
+        gravity.text = $"Gravity: {rg.gravityScale * 9.8} m/s^2";
     }
 
     private void UpdateTime()
@@ -73,7 +87,8 @@ public class MetricManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateDistance();
+        updateEnemyDistance();
+        updatePlayerDistance();
         updateScore();
         updateVelocity();
         UpdateTime();
