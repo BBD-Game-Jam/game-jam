@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class MetricManager : MonoBehaviour
     public GameObject character;
     public GameObject enemy;
     public TextMeshProUGUI score;
+    public TextMeshProUGUI distance;
     public TextMeshProUGUI enemyDistance;
     public TextMeshProUGUI velocity;
     public TextMeshProUGUI velocityX;
@@ -16,19 +18,39 @@ public class MetricManager : MonoBehaviour
     public TextMeshProUGUI gravity;
     public TextMeshProUGUI time;
     public TextMeshProUGUI velocityAng;
-    float playTime = 0;
+    private float playTime = 0;
+    private float savedDistance = 0;
+    private float distanceTraveled = 0;
+    private float points = 0;
+    private float finalScore = 0;
+    private float oldX = 0;
+
     // Start is called before the first frame update
     void Start()
     {
 
     }
 
-    void updateScore()
+    private void updatePlayerDistance()
     {
-        score.text = $"Score: {character.transform.position.x}";
+        if (character.transform.position.x < oldX)
+        {
+            savedDistance = distanceTraveled;
+            
+        }
+        distanceTraveled = (int)(savedDistance + character.transform.position.x);
+        distance.text = $"Distance: {distanceTraveled} m";
+        oldX = character.transform.position.x;
+
     }
 
-    void updateDistance()
+    private void updateScore()
+    {
+        finalScore = (int)(distanceTraveled / 50f) + points;
+        score.text = $"Score: {finalScore}";
+    }
+
+    void updateEnemyDistance()
     {
         if (enemy.transform.position.x < 0)
         {
@@ -40,7 +62,13 @@ public class MetricManager : MonoBehaviour
         }
     }
 
-    void updateVelocity()
+    [ContextMenu("Increase Score")]
+    public void addPoints()
+    {
+        points = points + 10;
+    }
+
+    private void updateVelocity()
     {
         Rigidbody2D rg = character.GetComponent<Rigidbody2D>();
         velocity.text = $"Velocity: {rg.velocity.magnitude} m/s";
@@ -50,7 +78,7 @@ public class MetricManager : MonoBehaviour
         gravity.text = $"Gravity: {rg.gravityScale * 9.8} m/s^2";
     }
 
-    void UpdateTime()
+    private void UpdateTime()
     {
         playTime = playTime + Time.deltaTime;
         time.text = $"Time: {playTime} s";
@@ -59,9 +87,10 @@ public class MetricManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        updateEnemyDistance();
+        updatePlayerDistance();
         updateScore();
         updateVelocity();
         UpdateTime();
-        updateDistance();
     }
 }
