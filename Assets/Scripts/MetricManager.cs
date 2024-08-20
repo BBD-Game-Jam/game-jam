@@ -9,6 +9,8 @@ public class MetricManager : MonoBehaviour
 {
     public GameObject character;
     public GameObject enemy;
+        public Camera cam;
+
     public TextMeshProUGUI score;
     public TextMeshProUGUI distance;
     public TextMeshProUGUI enemyDistance;
@@ -24,6 +26,7 @@ public class MetricManager : MonoBehaviour
     private float points = 0;
     private float finalScore = 0;
     private float oldX = 0;
+    private float enemyDistanceVar = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -52,14 +55,16 @@ public class MetricManager : MonoBehaviour
 
     void updateEnemyDistance()
     {
-        if (enemy.transform.position.x < 0)
+        if (cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane)).x < enemy.transform.position.x)
         {
-            enemyDistance.text = $"{(int)(character.transform.position.x + enemy.transform.position.x)}m";
+            enemyDistance.enabled = false;
         }
-        else
-        {
-            enemyDistance.text = $"{(int)(character.transform.position.x - enemy.transform.position.x)}m";
+        else{
+                        enemyDistance.enabled = true;
+
         }
+        float distance = Vector3.Distance (character.transform.position, enemy.transform.position);
+        enemyDistance.text = $"{(int)distance}m";
     }
 
     [ContextMenu("Increase Score")]
