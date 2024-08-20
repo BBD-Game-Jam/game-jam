@@ -23,7 +23,7 @@ public class Coin : MonoBehaviour
 
         /*if (collision.gameObject.layer == 3)
         {*/
-            logic.addPoints();
+        logic.addPoints();
         /*}*/
 
         Destroy(gameObject);
