@@ -57,6 +57,7 @@ public class TerainGenerator : MonoBehaviour
             target_heights.Add(terrainShape.spline.GetPosition(i).y);
         }
 
+        // Starting wave to get the player going
         Splash(15, waveMaxHeight);
 
         currentWaveFrequency = waveFrequency;
@@ -177,46 +178,6 @@ public class TerainGenerator : MonoBehaviour
             spline.SetPosition(i, spline.GetPosition(i) - new Vector3(offsetX, 0, 0));
         }
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Debug.Log("COLLISION!");
-    //    if (collision.gameObject.tag.Equals("Pingu"))
-    //    {
-    //        Tuple<int, float> indexDistance = GetClosestPointIndexAndDistance();
-    //        velocities[indexDistance.Item1] += (indexDistance.Item2 / distanceBetweenPoints) * (pinguRigidBody.velocity.y / waveResistance);
-    //    }
-    //}
-
-    //private void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag.Equals("Pingu"))
-    //    {
-    //        Rigidbody2D objectRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
-    //        if (objectRigidbody != null)
-    //        {
-    //            // Get object's current position
-    //            Vector3 objectPosition = collision.transform.position;
-
-    //            // Calculate the corresponding x position in the spline
-    //            Tuple<int, float> indexDistance = GetClosestPointIndexAndDistance();
-    //            int closestPointIndex = indexDistance.Item1;
-
-    //            // Get the y position of the terrain at this point
-    //            float terrainY = terrainShape.spline.GetPosition(closestPointIndex).y;
-
-    //            // Calculate depth
-    //            float depth = terrainY - objectPosition.y;
-
-    //            if (depth > 0)
-    //            {
-    //                // Apply a buoyancy force proportional to depth
-    //                float buoyancyForce = depth * 10f;  // Adjust the multiplier to tune buoyancy strength
-    //                objectRigidbody.AddForce(Vector2.up * buoyancyForce, ForceMode2D.Force);
-    //            }
-    //        }
-    //    }
-    //}
 
     private Tuple<int, float> GetClosestPointIndexAndDistance()
     {
