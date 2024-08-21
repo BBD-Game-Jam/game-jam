@@ -11,10 +11,12 @@ public class TerainGenerator : MonoBehaviour
     public GameObject pingu;
     public Camera cam;
     public int distanceBetweenPoints = 5;
-    public int heightOffset = 20;
+    public float baseHeight = 0;
     public int curvature = 30;
     public float generationThreshold = 50f;  // Distance from the edge of the terrain to trigger new generation
     public float deletionThreshold = 50f;  // Increased distance behind the character to delete points
+    public bool generateWaves = true;
+    public bool dynamic = true;
     public float waveSpread = 1f;
     public float waveStiffness = 0.05f;
     public float waveDampening = 0.99999999999f;
@@ -62,12 +64,15 @@ public class TerainGenerator : MonoBehaviour
 
     void Update()
     {
-        waveTimer += Time.deltaTime;
-        if (waveTimer > currentWaveFrequency)
+        if (generateWaves)
         {
-            GenerateWave(UnityEngine.Random.Range(waveMinHeight, waveMaxHeight));
-            waveTimer = 0;
-            currentWaveFrequency = UnityEngine.Random.Range(waveFrequency * 0.01f * (100 - waveFrequencyVariationPercentage), waveFrequency * 0.01f * (100 + waveFrequencyVariationPercentage));
+            waveTimer += Time.deltaTime;
+            if (waveTimer > currentWaveFrequency)
+            {
+                GenerateWave(UnityEngine.Random.Range(waveMinHeight, waveMaxHeight));
+                waveTimer = 0;
+                currentWaveFrequency = UnityEngine.Random.Range(waveFrequency * 0.01f * (100 - waveFrequencyVariationPercentage), waveFrequency * 0.01f * (100 + waveFrequencyVariationPercentage));
+            }
         }
 
         if (cam != null && terrainShape != null)
@@ -90,16 +95,19 @@ public class TerainGenerator : MonoBehaviour
                 DeleteOldPoint();
             }
 
-            for (int i = firstPointIndex; i < lastPointIndex; i++)
+            if (dynamic)
             {
-                if (i < velocities.Count && i < target_heights.Count)
+                for (int i = firstPointIndex; i < lastPointIndex; i++)
                 {
-                    WaveSpringUpdate(i, waveStiffness, waveDampening, Time.deltaTime);
-                    Smoothen(i);
+                    if (i < velocities.Count && i < target_heights.Count)
+                    {
+                        WaveSpringUpdate(i, waveStiffness, waveDampening, Time.deltaTime);
+                        Smoothen(i);
+                    }
                 }
-            }
 
-            PropagateWaves(Time.deltaTime);
+                PropagateWaves(Time.deltaTime);
+            }
         }
     }
 
@@ -107,10 +115,9 @@ public class TerainGenerator : MonoBehaviour
     {
         // Generate new point positions using Perlin noise
         float xPos = terrainShape.spline.GetPosition(lastPointIndex).x + distanceBetweenPoints;
-        float yPos = heightOffset * Mathf.PerlinNoise(lastPointIndex * UnityEngine.Random.Range(5.0f, 15.0f), 0);
 
         // Insert point
-        terrainShape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, 20, 0));
+        terrainShape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, baseHeight, 0));
         terrainShape.spline.SetTangentMode(lastPointIndex + 1, ShapeTangentMode.Continuous);
         terrainShape.spline.SetLeftTangent(lastPointIndex + 1, new Vector3(-curvature / 10, 0, 0));
         terrainShape.spline.SetRightTangent(lastPointIndex + 1, new Vector3(curvature / 10, 0, 0));
@@ -123,9 +130,6 @@ public class TerainGenerator : MonoBehaviour
         // Set initial velocity and target height
         velocities.Insert(lastPointIndex, 0f);
         target_heights.Insert(lastPointIndex, terrainShape.spline.GetPosition(lastPointIndex).y);
-
-        // Smoothen
-        //Smoothen(lastPointIndex - 1);
     }
 
     void DeleteOldPoint()
