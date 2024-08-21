@@ -101,6 +101,7 @@ public class CatchPinguScript : MonoBehaviour
         {
             // Debug.Log("Game over at " + transform.position.x);
             gameOverUI.SetActive(true);
+            Time.timeScale = 0f;
         }
     }
 
