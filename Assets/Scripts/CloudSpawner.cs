@@ -47,7 +47,6 @@ public class CloudSpawner : MonoBehaviour
         else if ((currentSpawnXPosition - lastSpawnXPosition) < 0)
         {
             lastSpawnXPosition = currentSpawnXPosition;
-            Debug.Log("ResetSpawn");
         }
 
        // Debug.Log($"Diff: {currentSpawnXPosition - lastSpawnXPosition}");
