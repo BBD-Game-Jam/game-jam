@@ -16,7 +16,6 @@ public class TerainGenerator : MonoBehaviour
     public float generationThreshold = 50f;  // Distance from the edge of the terrain to trigger new generation
     public float deletionThreshold = 50f;  // Increased distance behind the character to delete points
     public float waveSpread = 1f;
-    //public float waveResistance = 5f;
     public float waveStiffness = 0.05f;
     public float waveDampening = 0.99999999999f;
     public float waveMinHeight = 0.5f;
