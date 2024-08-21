@@ -3,6 +3,7 @@ using UnityEngine.U2D;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 public class TerainGenerator : MonoBehaviour
 {
@@ -15,9 +16,16 @@ public class TerainGenerator : MonoBehaviour
     public float generationThreshold = 50f;  // Distance from the edge of the terrain to trigger new generation
     public float deletionThreshold = 50f;  // Increased distance behind the character to delete points
     public float waveSpread = 1f;
+    //public float waveResistance = 5f;
+    public float waveStiffness = 0.05f;
+    public float waveDampening = 0.99999999999f;
+    public float waveMinHeight = 0.5f;
+    public float waveMaxHeight = 1f;
+    public float waveFrequency = 5;
+    public int waveFrequencyVariationPercentage = 50;
 
     private float lowestPointYPos;
-    private int lastPointIndex = 4;
+    private int lastPointIndex = 21;
     private readonly int firstPointIndex = 1;
     private SpriteShapeController terrainShape;
     private Rigidbody2D terrainRigidBody;
@@ -25,6 +33,9 @@ public class TerainGenerator : MonoBehaviour
     private EdgeCollider2D edgeCollider;
     private List<float> velocities = new();
     private List<float> target_heights = new();
+
+    private float waveTimer = 0;
+    private float currentWaveFrequency;
 
     void Start()
     {
@@ -44,10 +55,22 @@ public class TerainGenerator : MonoBehaviour
             velocities.Add(0f);
             target_heights.Add(terrainShape.spline.GetPosition(i).y);
         }
+
+        Splash(15, waveMaxHeight);
+
+        currentWaveFrequency = waveFrequency;
     }
 
     void Update()
     {
+        waveTimer += Time.deltaTime;
+        if (waveTimer > currentWaveFrequency)
+        {
+            GenerateWave(UnityEngine.Random.Range(waveMinHeight, waveMaxHeight));
+            waveTimer = 0;
+            currentWaveFrequency = UnityEngine.Random.Range(waveFrequency * 0.01f * (100 - waveFrequencyVariationPercentage), waveFrequency * 0.01f * (100 + waveFrequencyVariationPercentage));
+        }
+
         if (cam != null && terrainShape != null)
         {
             // Calculate camera's left and right edges in world space
@@ -72,18 +95,14 @@ public class TerainGenerator : MonoBehaviour
             {
                 if (i < velocities.Count && i < target_heights.Count)
                 {
-                    WaveSpringUpdate(i, 0.5f, 0.95f, Time.deltaTime);
+                    WaveSpringUpdate(i, waveStiffness, waveDampening, Time.deltaTime);
+                    Smoothen(i);
                 }
             }
 
             PropagateWaves(Time.deltaTime);
         }
     }
-
-    //void FixedUpdate()
-    //{
-        
-    //}
 
     void GenerateNewPoint()
     {
@@ -92,7 +111,7 @@ public class TerainGenerator : MonoBehaviour
         float yPos = heightOffset * Mathf.PerlinNoise(lastPointIndex * UnityEngine.Random.Range(5.0f, 15.0f), 0);
 
         // Insert point
-        terrainShape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, yPos, 0));
+        terrainShape.spline.InsertPointAt(lastPointIndex + 1, new Vector3(xPos, 20, 0));
         terrainShape.spline.SetTangentMode(lastPointIndex + 1, ShapeTangentMode.Continuous);
         terrainShape.spline.SetLeftTangent(lastPointIndex + 1, new Vector3(-curvature / 10, 0, 0));
         terrainShape.spline.SetRightTangent(lastPointIndex + 1, new Vector3(curvature / 10, 0, 0));
@@ -105,6 +124,9 @@ public class TerainGenerator : MonoBehaviour
         // Set initial velocity and target height
         velocities.Insert(lastPointIndex, 0f);
         target_heights.Insert(lastPointIndex, terrainShape.spline.GetPosition(lastPointIndex).y);
+
+        // Smoothen
+        //Smoothen(lastPointIndex - 1);
     }
 
     void DeleteOldPoint()
@@ -131,6 +153,12 @@ public class TerainGenerator : MonoBehaviour
         }
     }
 
+    void GenerateWave(float height)
+    {
+        Debug.Log("WAVE!");
+        Splash(lastPointIndex, height);
+    }
+
     void AdjustShapePosition()
     {
         float offsetX = terrainShape.spline.GetPosition(firstPointIndex).x;
@@ -147,7 +175,62 @@ public class TerainGenerator : MonoBehaviour
         }
     }
 
-    
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    Debug.Log("COLLISION!");
+    //    if (collision.gameObject.tag.Equals("Pingu"))
+    //    {
+    //        Tuple<int, float> indexDistance = GetClosestPointIndexAndDistance();
+    //        velocities[indexDistance.Item1] += (indexDistance.Item2 / distanceBetweenPoints) * (pinguRigidBody.velocity.y / waveResistance);
+    //    }
+    //}
+
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag.Equals("Pingu"))
+    //    {
+    //        Rigidbody2D objectRigidbody = collision.gameObject.GetComponent<Rigidbody2D>();
+    //        if (objectRigidbody != null)
+    //        {
+    //            // Get object's current position
+    //            Vector3 objectPosition = collision.transform.position;
+
+    //            // Calculate the corresponding x position in the spline
+    //            Tuple<int, float> indexDistance = GetClosestPointIndexAndDistance();
+    //            int closestPointIndex = indexDistance.Item1;
+
+    //            // Get the y position of the terrain at this point
+    //            float terrainY = terrainShape.spline.GetPosition(closestPointIndex).y;
+
+    //            // Calculate depth
+    //            float depth = terrainY - objectPosition.y;
+
+    //            if (depth > 0)
+    //            {
+    //                // Apply a buoyancy force proportional to depth
+    //                float buoyancyForce = depth * 10f;  // Adjust the multiplier to tune buoyancy strength
+    //                objectRigidbody.AddForce(Vector2.up * buoyancyForce, ForceMode2D.Force);
+    //            }
+    //        }
+    //    }
+    //}
+
+    private Tuple<int, float> GetClosestPointIndexAndDistance()
+    {
+        float minDistance = 1000f;
+        int index = firstPointIndex;
+        for (int i = firstPointIndex; i < lastPointIndex; i++)
+        {
+            float distance = Math.Abs(character.position.x - (terrainShape.transform.position.x + terrainShape.spline.GetPosition(i).x));
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                index = i;
+            }
+        }
+        return new Tuple<int, float>(index, minDistance);
+    }
+
     void WaveSpringUpdate(int index, float springStiffness, float dampening, float deltaTime)
     {
         float height = terrainShape.spline.GetPosition(index).y;
@@ -191,5 +274,31 @@ public class TerainGenerator : MonoBehaviour
         {
             velocities[index] += speed;
         }
+    }
+
+    void Smoothen(int index)
+    {
+        Spline waterSpline = terrainShape.spline;
+        Vector3 position = waterSpline.GetPosition(index);
+        Vector3 positionPrev = position;
+        Vector3 positionNext = position;
+
+        if (index >= firstPointIndex + 1)
+        {
+            positionPrev = waterSpline.GetPosition(index-1);
+        }
+        if (index <= lastPointIndex - 1)
+        {
+            positionNext = waterSpline.GetPosition(index+1);
+        }
+        Vector3 forward = gameObject.transform.forward;
+
+        float scale = Mathf.Min((positionNext - position).magnitude, (positionPrev - position).magnitude) * 0.33f;
+        Vector3 leftTangent = (positionPrev - position).normalized * scale;
+        Vector3 rightTangent = (positionNext - position).normalized * scale;
+        SplineUtility.CalculateTangents(position, positionPrev, positionNext, forward, scale, out rightTangent, out leftTangent);
+
+        waterSpline.SetLeftTangent(index, leftTangent);
+        waterSpline.SetRightTangent(index, rightTangent);
     }
 }

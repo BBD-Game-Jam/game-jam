@@ -34,10 +34,10 @@ public class CatchPinguScript : MonoBehaviour
             if (limitCount <= upperLimit)
             {
                 // enemySpeed *= difficulty;
-                Debug.Log("Enemy speed before change: " + enemySpeed);
-                Debug.Log("Difficulty after change: " + difficulty);
+                //Debug.Log("Enemy speed before change: " + enemySpeed);
+                //Debug.Log("Difficulty after change: " + difficulty);
                 enemySpeed = enemySpeed * difficulty;
-                Debug.Log("Enemy speed after change: " + enemySpeed);
+                //Debug.Log("Enemy speed after change: " + enemySpeed);
                 limitCount++;
             }
         }

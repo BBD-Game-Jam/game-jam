@@ -83,7 +83,7 @@ public class PinguScript : MonoBehaviour
 
     private void Rotate(InputAction.CallbackContext context)
     {
-        Debug.Log("Rotate");
+        //Debug.Log("Rotate");
         rotationInput = context.ReadValue<float>();
     }
 
