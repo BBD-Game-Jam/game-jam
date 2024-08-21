@@ -15,16 +15,18 @@ public class CloudSpawner : MonoBehaviour
     public float generationThresholdX = 20f;
     public float generationThresholdY = 75f;
     public float maxSpawnHeightDensity = 0.25f;
-    public float cloudHeight = 4.5f;
+    //public float cloudHeight = 4.5f;
     public float minHeight = 30f;
     public Camera cam;
     public GameObject clouds;
 
     private float lastSpawnXPosition;
     private float currentSpawnXPosition;
+    private float spawnDistance;
     // Start is called before the first frame update
     void Start()
     {
+        spawnDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
         lastSpawnXPosition = cam.ViewportToWorldPoint(new Vector3(1, 0, cam.nearClipPlane)).x + generationThresholdX;
         SpawnClouds();
     }
@@ -32,7 +34,7 @@ public class CloudSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float spawnDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
+        
         currentSpawnXPosition = cam.ViewportToWorldPoint(new Vector3(1, 0, cam.nearClipPlane)).x + generationThresholdX;
 
         // Check if the player has moved the spawnDistance since the last spawn
@@ -68,5 +70,6 @@ public class CloudSpawner : MonoBehaviour
                 Instantiate(clouds, new Vector3(x, y, 0), transform.rotation);
             }
         }
+        spawnDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
     }
 }
