@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.U2D;
+
 
 public class CatchPinguScript : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject pingu;
+    public SpriteShapeController terrainShape;
 
     public GameObject gameOverUI;
     private Rigidbody2D enemyRigidBody;
+
+    private Vector3 spinePos;
+
 
     public float enemySpeed = 15f;
 
@@ -20,6 +26,10 @@ public class CatchPinguScript : MonoBehaviour
 
     private float enemyBaseSpeed;
     private bool gameOverFlag = false;
+    private float yWave = 0;
+    public float yWaveMagnitude = 1f;
+    public float yWaveSpeed = 1f;
+    private float futureSpinePos = 1f;
 
     void Start()
     {
@@ -29,6 +39,8 @@ public class CatchPinguScript : MonoBehaviour
         initializePosition();
         enemyBaseSpeed = enemySpeed;
         // StartCoroutine(AverageSpeedRoutine());
+        StartCoroutine(WaveRideCoroutine());
+
 
     }
 
@@ -46,8 +58,21 @@ public class CatchPinguScript : MonoBehaviour
         }
     }
 
+    IEnumerator WaveRideCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(2);
+            spinePos = GetPositionOnSpline(enemyRigidBody.position.x + 30f);
+
+        }
+    }
+
     void Update()
     {
+        
+        
+
         enemySpeed = enemyBaseSpeed;
         Vector3 predictedPosition = pingu.transform.position + new Vector3(pingu.GetComponent<Rigidbody2D>().velocity.x, pingu.GetComponent<Rigidbody2D>().velocity.y, 0);
         float distanceToPlayer = Vector3.Distance(transform.position, predictedPosition);
@@ -55,15 +80,24 @@ public class CatchPinguScript : MonoBehaviour
         {
             enemySpeed = 60f;
         }
+
+        
+        float angle = Mathf.Atan2(enemyRigidBody.velocity.y, enemyRigidBody.velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        yWave = spinePos.y / 2 * yWaveSpeed * Mathf.Cos(Time.time * yWaveSpeed);
+        Debug.Log($"yWave: {yWave}");
+        
         if (gameOverFlag)
         {
-            enemyRigidBody.velocity = new Vector2(pingu.GetComponent<Rigidbody2D>().velocity.x, pingu.GetComponent<Rigidbody2D>().velocity.y);
+            // enemyRigidBody.velocity = new Vector2(pingu.GetComponent<Rigidbody2D>().velocity.x, pingu.GetComponent<Rigidbody2D>().velocity.y); // Straight line follow
+            enemyRigidBody.velocity = new Vector2(pingu.GetComponent<Rigidbody2D>().velocity.x, yWave); // Wave follow
         }
         else
         {
-            enemyRigidBody.velocity = new Vector2(enemySpeed, pingu.GetComponent<Rigidbody2D>().velocity.y);
+            // enemyRigidBody.velocity = new Vector2(enemySpeed, pingu.GetComponent<Rigidbody2D>().velocity.y);  // Straight line follow
+            enemyRigidBody.velocity = new Vector2(enemySpeed, yWave); // Wave follow
         }
-
+        
         gameOver();
 
     }
@@ -72,14 +106,36 @@ public class CatchPinguScript : MonoBehaviour
         if (pingu.transform.position.x <= gameObject.transform.position.x)
         {
             gameOverFlag = true;
-            // Debug.Log("Game over at " + transform.position.x);
             gameOverUI.SetActive(true);
         }
     }
 
     void initializePosition()
     {
-        //Sets the position of the enemy to the left of the pengu at start
-        transform.position = new Vector3(pingu.transform.position.x - 70f, pingu.transform.position.y, pingu.transform.position.z);
+        transform.position = new Vector3(pingu.transform.position.x - 70f, pingu.transform.position.y - 15f, pingu.transform.position.z);
+    }
+
+        Vector3 GetPositionOnSpline(float distance)
+    {
+        int pointCount = terrainShape.spline.GetPointCount();
+        Debug.Log($"point count : {pointCount}");
+
+        for (int i = 0; i < pointCount - 1; i++)
+        {
+            Vector3 p1 = terrainShape.spline.GetPosition(i);
+            Vector3 p2 = terrainShape.spline.GetPosition(i + 1);
+            float segmentLength = Vector3.Distance(p1, p2);
+
+            if (distance <= segmentLength)
+            {
+                float t = distance / segmentLength;
+                return Vector3.Lerp(p1, p2, t);
+            }
+            else
+            {
+                distance -= segmentLength;
+            }
+        }
+        return terrainShape.spline.GetPosition(pointCount - 1);
     }
 }

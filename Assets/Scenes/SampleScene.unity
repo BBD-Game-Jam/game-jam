@@ -327,11 +327,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pingu: {fileID: 429131127}
+  terrainShape: {fileID: 1682307245}
   gameOverUI: {fileID: 787803295}
   enemySpeed: 15
   upperLimit: 4
   pausedFlag: 0
   difficulty: 1.3
+  yWaveMagnitude: 10
+  yWaveSpeed: 1.25
 --- !u!212 &148612957
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -373,8 +376,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: d81c53b839213e046904e4d5351494bc, type: 3}
+  m_Color: {r: 0.3737985, g: 0.69048357, b: 0.754717, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
