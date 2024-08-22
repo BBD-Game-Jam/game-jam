@@ -107,6 +107,7 @@ public class CatchPinguScript : MonoBehaviour
         {
             gameOverFlag = true;
             gameOverUI.SetActive(true);
+            Time.timeScale = 0f;
         }
     }
 
