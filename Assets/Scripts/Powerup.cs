@@ -2,33 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Powerup : MonoBehaviour
 {
     // Start is called before the first frame update
     public LogicScript logic;
-    public Animation ani;
 
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
-        ani = GameObject.FindGab
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        /*if (collision.gameObject.layer == 3)
-        {*/
-        logic.addPoints();
-        /*}*/
+        int type = (int)Mathf.Round(Random.Range(0, 2));
+        if (collision.gameObject.layer == 3)
+        {
+            logic.Powerup(type);
+        }
 
         Destroy(gameObject);
-
     }
 }

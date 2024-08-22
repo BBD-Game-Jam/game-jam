@@ -24,6 +24,7 @@ public class MetricManager : MonoBehaviour
     private float points = 0;
     private float finalScore = 0;
     private float oldX = 0;
+    private float pointMultiplier = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +66,7 @@ public class MetricManager : MonoBehaviour
     [ContextMenu("Increase Score")]
     public void addPoints()
     {
-        points = points + 10;
+        points = points + (10)*pointMultiplier;
     }
 
     private void updateVelocity()
@@ -92,5 +93,10 @@ public class MetricManager : MonoBehaviour
         updateScore();
         updateVelocity();
         UpdateTime();
+    }
+
+    public void SetPointMultiplier(int multiplier)
+    {
+        pointMultiplier = multiplier;
     }
 }

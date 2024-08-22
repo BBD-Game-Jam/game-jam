@@ -91,4 +91,9 @@ public class PinguScript : MonoBehaviour
     {
         rotationInput = 0f;
     }
+
+    public void SetVelocity(float v)
+    {
+        minSpeed = v;
+    }
 }

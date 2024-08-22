@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.U2D;
 using System;
 
-public class TerainGenerator : MonoBehaviour
+public class SandGenerator : MonoBehaviour
 {
+    public Rigidbody2D rigidBody2D;
     public Transform character;  // Reference to the character's transform
     public GameObject pingu;
     public Camera cam;
@@ -11,7 +12,8 @@ public class TerainGenerator : MonoBehaviour
     public int heightOffset = 20;
     public int curvature = 30;
     public float generationThreshold = 50f;  // Distance from the edge of the terrain to trigger new generation
-    public float deletionThreshold = 50f;  // Increased distance behind the character to delete point
+    public float deletionThreshold = 50f;  // Increased distance behind the character to delete points
+    public float shiftVelocity = -4f;
 
     private float lowestPointYPos;
     private int lastPointIndex = 4;
@@ -34,6 +36,7 @@ public class TerainGenerator : MonoBehaviour
 
     void Update()
     {
+        rigidBody2D.velocity = new Vector2(shiftVelocity, 0f);
         if (cam != null && terrainShape != null)
         {
             // Calculate camera's left and right edges in world space

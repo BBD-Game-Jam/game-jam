@@ -1,22 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D;
 
-public class FloorCoinSpawner : MonoBehaviour
+public class FishSpawner : MonoBehaviour
 {
-
     // Start is called before the first frame update
-    public float minSpawnDistance = 15f;
-    public float maxSpawnDistance = 50f;
+    public float minSpawnDistance = 27f;
+    public float maxSpawnDistance = 150f;
     public float spawnRate = 0;
-    public float coinSeparation = 3f;
     public float generationThresholdX = 20f;
-    public float distanceFromFloor = 1f;
-    public float maxCoinSet = 6f;
     public Camera cam;
-    public GameObject coin;
-    private RaycastHit2D hit;
+    public GameObject fish;
+    private RaycastHit2D hitSurface;
+    private RaycastHit2D hitSeabed;
 
     private float lastSpawnXPosition;
     private float currentSpawnXPosition;
@@ -33,42 +29,39 @@ public class FloorCoinSpawner : MonoBehaviour
     void Update()
     {
         currentSpawnXPosition = cam.ViewportToWorldPoint(new Vector3(1, 0, cam.nearClipPlane)).x + generationThresholdX;
-       
+
         // Check if the player has moved the spawnDistance since the last spawn
         if (currentSpawnXPosition - lastSpawnXPosition >= spawnDistance)
         {
-            int numCoins = (int) Random.Range(1,maxCoinSet);
-            SpawnFloorCoins(numCoins);
+            SpawnFish();
             lastSpawnXPosition = currentSpawnXPosition; // Update last spawn position
 
         }
         else if ((currentSpawnXPosition - lastSpawnXPosition) < 0)
         {
             lastSpawnXPosition = currentSpawnXPosition;
-            Debug.Log("ResetSpawn");
+            // Debug.Log("ResetSpawn");
         }
 
         // Debug.Log($"Diff: {currentSpawnXPosition - lastSpawnXPosition}");
     }
 
-    [ContextMenu("Spawn floor coins")]
-    public void SpawnFloorCoins(int numCoins)
+    [ContextMenu("Spawn fish")]
+    public void SpawnFish()
     {
         float x = currentSpawnXPosition;
-        for (int i = 0; i < numCoins; i++)
+        float y;
+        
+        hitSurface = Physics2D.Raycast(new Vector2(x, 55f), Vector2.down);
+        hitSeabed = Physics2D.Raycast(new Vector2(x, hitSurface.point.y - 6f), Vector2.down);
+
+        if ((hitSurface != null) && (hitSeabed.collider != null))
         {
-            float y = 50f;
-            hit = Physics2D.Raycast(new Vector2(x, 70f), Vector2.down);
-            if (hit.collider != null)
-            {
-                y = hit.point.y;
-                //Debug.Log($"Height: {y}");
-            }
-
-            Instantiate(coin, new Vector3(x, y + distanceFromFloor, 0), transform.rotation);
-            x = x + coinSeparation;
+            
+            y = Random.Range(hitSeabed.point.y + 2f, hitSurface.point.y - 2f);
+            Instantiate(fish, new Vector3(x, y, 0), transform.rotation);
+            // Debug.Log($"Height: {y}");
         }
-
         spawnDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
     }
 }
