@@ -298,7 +298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &148612955
 Transform:
   m_ObjectHideFlags: 0
@@ -893,8 +893,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfdeaf822162dd3439c76cf451e63ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnDistance: 60
-  maxSpawnDistance: 300
+  minSpawnDistance: 150
+  maxSpawnDistance: 900
   generationThresholdX: 20
   distanceToRightOfWavePeak: 1
   distanceAboveWavePeak: 4
@@ -2402,7 +2402,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &971160303
 Rigidbody2D:
   serializedVersion: 4
@@ -3913,6 +3913,7 @@ GameObject:
   - component: {fileID: 1682307246}
   - component: {fileID: 1682307245}
   - component: {fileID: 1682307248}
+  - component: {fileID: 1682307253}
   - component: {fileID: 1682307249}
   - component: {fileID: 1682307251}
   - component: {fileID: 1682307250}
@@ -4419,7 +4420,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682307243}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 292775d497bd78144b4e5ee0a73f9dce, type: 2}
   m_IncludeLayers:
@@ -4490,6 +4491,26 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &1682307253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682307243}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73683a30638a8b4f9c7f77b85acf0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 429131131}
+  pingu: {fileID: 429131127}
+  cam: {fileID: 519420031}
+  distanceBetweenPoints: 24
+  heightOffset: 55
+  curvature: 30
+  generationThreshold: 50
+  deletionThreshold: 50
 --- !u!1 &1717504310
 GameObject:
   m_ObjectHideFlags: 0
@@ -4806,8 +4827,8 @@ MonoBehaviour:
   metrics: {fileID: 22784355}
   character: {fileID: 429131132}
   powerUpMessage: {fileID: 932062334}
-  powerUpTime: 15
-  powerupVelocity: 100
+  powerUpTime: 16
+  powerupVelocity: 75
 --- !u!4 &1908600634
 Transform:
   m_ObjectHideFlags: 0
@@ -4907,7 +4928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2035268232
 MonoBehaviour:
   m_ObjectHideFlags: 0

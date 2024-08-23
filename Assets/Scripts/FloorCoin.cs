@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Powerup : MonoBehaviour
+public class FloorCoin : MonoBehaviour
 {
   // Start is called before the first frame update
   public LogicScript logic;
-    private RaycastHit2D hit;
+  public Animation ani;
+  public AudioClip coinCollected;
+
+  private RaycastHit2D hit;
 
     void Start()
   {
     logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+    var audioSource = GameObject.FindGameObjectWithTag("CoinCollectedAudio").GetComponent<AudioSource>();
+    coinCollected = audioSource.clip;
   }
 
-  // Update is called once per frame
-  void Update()
-  {
+    // Update is called once per frame
+    void Update()
+    {   
         float x = gameObject.transform.position.x;
         float y = gameObject.transform.position.y;
         int layerToIgnore = 6;
@@ -28,20 +33,21 @@ public class Powerup : MonoBehaviour
         {
             //Debug.Log(y);
             y = hit.point.y;
-            gameObject.transform.position = new Vector2(x, y + 5f);
+            gameObject.transform.position = new Vector2(x, y + 1.5f);
         }
-
     }
 
-  private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
   {
-    int type = (int)Mathf.Round(Random.Range(0, 2));
-    if (collision.gameObject.layer == 3)
-    {
-      logic.Powerup(type);
+
+        if (collision.gameObject.layer == 3)
+        {
+            logic.addPoints();
+
+            Debug.Log("Collected coin");
+            AudioSource.PlayClipAtPoint(coinCollected, transform.position);
             Destroy(gameObject);
         }
 
-    
   }
 }

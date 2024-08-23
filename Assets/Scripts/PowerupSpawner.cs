@@ -41,7 +41,7 @@ public class PowerupSpawner : MonoBehaviour
 
       hit = Physics2D.Raycast(new Vector2(currentSpawnXPosition, 70f), Vector2.down);
       cp = hit.point.y;
-      if (cp < lp)
+     /* if (cp < lp)
       {
         lp = cp;
       }
@@ -50,11 +50,11 @@ public class PowerupSpawner : MonoBehaviour
         hp = cp;
       }
       else if ((hp - lp) > waveHeight)
-      {
+      {*/
         generatePowerup(currentSpawnXPosition, cp);
         hp = -9999;
         lp = 9999;
-      }
+      /*}*/
 
       lastSpawnXPosition = currentSpawnXPosition; // Update last spawn position
     }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5884402744313018492}
-  - component: {fileID: 2709359652407156772}
+  - component: {fileID: 8511440576070197968}
   m_Layer: 0
   m_Name: Fishs
   m_TagString: Environment
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 1606774264131979091}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2709359652407156772
+--- !u!114 &8511440576070197968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

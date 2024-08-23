@@ -159,7 +159,7 @@ public class TerainGenerator : MonoBehaviour
 
   void GenerateWave(float height)
   {
-    Debug.Log("WAVE!");
+    //Debug.Log("WAVE!");
     Splash(lastPointIndex, height);
   }
 

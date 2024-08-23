@@ -5,78 +5,73 @@ using UnityEngine;
 
 public class LogicScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public MetricManager metrics;
-    public PinguScript character;
-    public TextMeshProUGUI powerUpMessage;
-    public float powerUpTime = 10f;
-    // Start is called before the first frame update
+  // Start is called before the first frame update
+  public MetricManager metrics;
+  public PinguScript character;
+  public TextMeshProUGUI powerUpMessage;
+  public float powerUpTime = 10f;
+  // Start is called before the first frame update
 
-    private bool hasPower = false;
-    private float countDownTime = 10f;
-    private string power;
-    public float powerupVelocity = 50f;
-    void Start()
+  private bool hasPower = false;
+  private float countDownTime = 10f;
+  private string power;
+  public float powerupVelocity = 50f;
+  void Start()
+  {
+
+  }
+
+  void Update()
+  {
+    if (hasPower)
     {
-
+      UpdatePowerMessage();
     }
+  }
 
-    void Update()
+  public void addPoints()
+  {
+    metrics.addPoints();
+  }
+
+  public void Powerup(int type)
+  {
+    RemovePower("something");
+    countDownTime = powerUpTime;
+    hasPower = true;
+    if (type == 0)
     {
-        if (hasPower)
-        {
-            UpdatePowerMessage();
-        }
+      power = "2X points";
+      metrics.SetPointMultiplier(2);
     }
-
-    public void addPoints()
+    else if (type == 1)
     {
-        metrics.addPoints();
+      power = "2X speed";
+      character.SetVelocity(powerupVelocity);
     }
+  }
 
-    public void Powerup(int type)
+  // Update is called once per frame
+  private void UpdatePowerMessage()
+  {
+    if (countDownTime >= 0)
     {
-        countDownTime = powerUpTime;
-        hasPower = true;
-        if (type == 0)
-        {
-            power = "2X points";
-            metrics.SetPointMultiplier(2);
-        }
-        else if (type == 1)
-        {
-            power = "2X speed";
-            character.SetVelocity(powerupVelocity);
-        }
+      countDownTime = countDownTime - Time.deltaTime;
+      powerUpMessage.text = $"{power}: {(int)countDownTime}s";
     }
+    else
+    {
+      hasPower = false;
+      powerUpMessage.text = "";
+      RemovePower(power);
+    }
+  }
 
-    // Update is called once per frame
-    private void UpdatePowerMessage()
-    {
-        if (countDownTime >= 0)
-        {
-            countDownTime = countDownTime - Time.deltaTime;
-            powerUpMessage.text = $"{power}: {(int)countDownTime}s";
-        }
-        else
-        {
-            hasPower = false;
-            powerUpMessage.text = "";
-            RemovePower(power);
-        }
-    }
-
-    private void RemovePower(string power)
-    {
-        if (power == "2X speed")
-        {
-            character.SetVelocity(10f);
-        }
-        else if (power == "2X points")
-        {
-            metrics.SetPointMultiplier(1);
-        }
-        hasPower = false;
-    }
+  private void RemovePower(string power)
+  {
+    character.SetVelocity(10f);
+    metrics.SetPointMultiplier(1);
+    hasPower = false;
+  }
 
 }
