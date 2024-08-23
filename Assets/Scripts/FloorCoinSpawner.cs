@@ -27,7 +27,6 @@ public class FloorCoinSpawner : MonoBehaviour
     {
         spawnDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
         lastSpawnXPosition = cam.ViewportToWorldPoint(new Vector3(1, 0, cam.nearClipPlane)).x + generationThresholdX;
-        SpawnFloorCoins(1);
     }
 
     // Update is called once per frame
@@ -63,7 +62,7 @@ public class FloorCoinSpawner : MonoBehaviour
             if (hit.collider != null)
             {
                 y = hit.point.y;
-                Debug.Log($"Height: {y}");
+                //Debug.Log($"Height: {y}");
             }
 
             Instantiate(coin, new Vector3(x, y + distanceFromFloor, 0), transform.rotation);
