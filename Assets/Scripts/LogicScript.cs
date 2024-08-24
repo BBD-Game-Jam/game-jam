@@ -41,12 +41,12 @@ public class LogicScript : MonoBehaviour
     hasPower = true;
     if (type == 0)
     {
-      power = "2X points";
+      power = "Flow state (2x points)";
       metrics.SetPointMultiplier(2);
     }
     else if (type == 1)
     {
-      power = "2X speed";
+      power = "Flow state (speed)";
       character.SetVelocity(powerupVelocity);
     }
   }
