@@ -14,7 +14,7 @@ public class CatchPinguScript : MonoBehaviour
 
     public GameObject gameOverUI;
     private Rigidbody2D enemyRigidBody;
-
+    public AudioClip gameOverAudioClip;
     private Vector3 spinePos;
 
 
@@ -40,8 +40,8 @@ public class CatchPinguScript : MonoBehaviour
         enemyBaseSpeed = enemySpeed;
         // StartCoroutine(AverageSpeedRoutine());
         StartCoroutine(WaveRideCoroutine());
-
-
+        var gameOverAudioSource = GameObject.FindGameObjectWithTag("GameOverAudio").GetComponent<AudioSource>();
+        gameOverAudioClip = gameOverAudioSource.clip;
     }
 
     IEnumerator ChangeValueRoutine()
@@ -105,6 +105,7 @@ public class CatchPinguScript : MonoBehaviour
     {
         if (pingu.transform.position.x <= gameObject.transform.position.x)
         {
+            AudioSource.PlayClipAtPoint(gameOverAudioClip, transform.position);
             gameOverFlag = true;
             gameOverUI.SetActive(true);
             Time.timeScale = 0f;
