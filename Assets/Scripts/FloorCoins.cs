@@ -28,7 +28,6 @@ public class FloorCoins : MonoBehaviour
         hit = Physics2D.Raycast(new Vector2(x, y - 0.5f), Vector2.down);
         if (hit.collider != null)
         {
-            Debug.Log(y);
             y = hit.point.y;
             gameObject.transform.position = new Vector2(x, y + 0.5f);
         }
