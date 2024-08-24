@@ -14,6 +14,7 @@ public class GameOverClick : MonoBehaviour
 
   public void ResetScene()
   {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+      Time.timeScale = 1f;
+      SceneManager.LoadScene(SceneManager.GetActiveScene().name);
   }
 }

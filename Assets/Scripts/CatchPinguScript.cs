@@ -12,10 +12,10 @@ public class CatchPinguScript : MonoBehaviour
   public GameObject pingu;
   public SpriteShapeController terrainShape;
 
-  public GameObject gameOverUI;
-  private Rigidbody2D enemyRigidBody;
-
-  private Vector3 spinePos;
+    public GameObject gameOverUI;
+    private Rigidbody2D enemyRigidBody;
+    public AudioClip gameOverAudioClip;
+    private Vector3 spinePos;
 
 
   public float enemySpeed = 15f;
@@ -41,7 +41,8 @@ public class CatchPinguScript : MonoBehaviour
     // StartCoroutine(AverageSpeedRoutine());
     StartCoroutine(WaveRideCoroutine());
 
-
+    var gameOverAudioSource = GameObject.FindGameObjectWithTag("GameOverAudio").GetComponent<AudioSource>();
+    gameOverAudioClip = gameOverAudioSource.clip;
   }
 
   IEnumerator ChangeValueRoutine()
