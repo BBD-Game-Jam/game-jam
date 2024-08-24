@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coins : MonoBehaviour
+public class Powerups : MonoBehaviour
 {
-
   public Camera cam;
   public float deletionThreshold = 300f;
   // Start is called before the first frame update

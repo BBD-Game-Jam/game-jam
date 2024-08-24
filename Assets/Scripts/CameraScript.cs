@@ -2,35 +2,35 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public Camera cam;
-    public Transform character;
-    public Vector3 offsetFromCharacter;
-    public float cameraHeightLimit = 1f;
-    public float padding = 10f;  // Padding around the terrain and character
+  public Camera cam;
+  public Transform character;
+  public Vector3 offsetFromCharacter;
+  public float cameraHeightLimit = 1f;
+  public float padding = 10f;  // Padding around the terrain and character
 
-    private void Start()
+  private void Start()
+  {
+    if (cam == null)
     {
-        if (cam == null)
-        {
-            cam = Camera.main;
-        }
+      cam = Camera.main;
     }
+  }
 
-    private void Update()
+  private void Update()
+  {
+    if (character != null)
     {
-        if (character != null)
-        {
-            // Increase the height of the camera based on where the character is
-            float targetSize = character.position.y > cameraHeightLimit ?
-                (character.position.y / 2) + padding :
-                (cameraHeightLimit / 2) + padding;
+      // Increase the height of the camera based on where the character is
+      float targetSize = character.position.y > cameraHeightLimit ?
+          (character.position.y / 2) + padding :
+          (cameraHeightLimit / 2) + padding;
 
-            // Adjust the orthographic size
-            cam.orthographicSize = targetSize;
+      // Adjust the orthographic size
+      cam.orthographicSize = targetSize;
 
-            // Follow the character
-            float targetY = cam.orthographicSize;
-            cam.transform.position = new Vector3(character.position.x + offsetFromCharacter.x, targetY, character.position.z + offsetFromCharacter.z);
-        }
+      // Follow the character
+      float targetY = cam.orthographicSize;
+      cam.transform.position = new Vector3(character.position.x + offsetFromCharacter.x, targetY, character.position.z + offsetFromCharacter.z);
     }
+  }
 }
