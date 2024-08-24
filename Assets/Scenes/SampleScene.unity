@@ -969,12 +969,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfdeaf822162dd3439c76cf451e63ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpawnDistance: 150
-  maxSpawnDistance: 900
+  minSpawnDistance: 310
+  maxSpawnDistance: 950
   generationThresholdX: 20
   distanceToRightOfWavePeak: 1
-  distanceAboveWavePeak: 4
-  waveHeight: 12
+  distanceAboveWavePeak: 7
+  waveHeight: 7
   cam: {fileID: 519420031}
   powerup: {fileID: 6458926528129333710, guid: 47f1d3e3832d960428dc0a641d1cf9d2, type: 3}
 --- !u!4 &357749737
@@ -1100,8 +1100,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 4.86, y: 7.59}
+  m_Offset: {x: -0.37, y: -0.15}
+  m_Size: {x: 3.11, y: 5.83}
   m_Direction: 0
 --- !u!50 &429131129
 Rigidbody2D:
@@ -1191,7 +1191,7 @@ Transform:
   m_GameObject: {fileID: 429131127}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.70283616, w: 0.7113518}
-  m_LocalPosition: {x: 0, y: 44.38, z: 0}
+  m_LocalPosition: {x: -14.36, y: 44.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody2D: {fileID: 429131129}
-  minSpeed: 2
+  minSpeed: 10
   torqueAmount: 150
   rotationDamping: 0.98
   maxRotationSpeed: 400
@@ -1976,7 +1976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32421f0144a4dbc4290e3b64380b434a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 545775941}
+  pauseMenuUI: {fileID: 0}
 --- !u!1 &745314388
 GameObject:
   m_ObjectHideFlags: 0
@@ -2471,7 +2471,6 @@ GameObject:
   - component: {fileID: 971160306}
   - component: {fileID: 971160305}
   - component: {fileID: 971160303}
-  - component: {fileID: 971160309}
   - component: {fileID: 971160304}
   m_Layer: 0
   m_Name: Sand
@@ -2967,28 +2966,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &971160309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971160302}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f61f90057950624c90386f1eb1f58cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigidBody2D: {fileID: 971160303}
-  character: {fileID: 429131131}
-  pingu: {fileID: 429131127}
-  cam: {fileID: 519420031}
-  distanceBetweenPoints: 24
-  heightOffset: 10
-  curvature: 150
-  generationThreshold: 500
-  deletionThreshold: 500
-  shiftVelocity: -4
 --- !u!1 &1066520729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3419,7 +3396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 429131131}
-  threshold: 1000
+  threshold: 500
 --- !u!4 &1202104940
 Transform:
   m_ObjectHideFlags: 0
@@ -3962,7 +3939,7 @@ MonoBehaviour:
   spawnRate: 0
   generationThresholdX: 20
   cam: {fileID: 519420031}
-  fish: {fileID: 4635313672439232487, guid: fb7044c0f1f4d154cabc34079388457c, type: 3}
+  fish: {fileID: 0}
 --- !u!4 &1678806246
 Transform:
   m_ObjectHideFlags: 0
@@ -4353,12 +4330,12 @@ MonoBehaviour:
   deletionThreshold: 500
   generateWaves: 1
   dynamic: 1
-  waveSpread: 0.008
-  waveStiffness: 0.0005
-  waveDampening: 0.2
-  waveMinHeight: 0.4
-  waveMaxHeight: 0.8
-  waveFrequency: 5
+  waveSpread: 0.01
+  waveStiffness: 0.00004
+  waveDampening: 0.004
+  waveMinHeight: 0.8
+  waveMaxHeight: 1.5
+  waveFrequency: 3
   waveFrequencyVariationPercentage: 50
 --- !u!50 &1682307249
 Rigidbody2D:
@@ -4580,11 +4557,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73683a30638a8b4f9c7f77b85acf0ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 429131131}
-  pingu: {fileID: 429131127}
-  cam: {fileID: 519420031}
-  distanceBetweenPoints: 24
-  heightOffset: 55
+  character: {fileID: 0}
+  pingu: {fileID: 0}
+  cam: {fileID: 0}
+  distanceBetweenPoints: 5
+  heightOffset: 20
   curvature: 30
   generationThreshold: 50
   deletionThreshold: 50
@@ -4902,10 +4879,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   metrics: {fileID: 22784355}
-  character: {fileID: 429131132}
-  powerUpMessage: {fileID: 932062334}
-  powerUpTime: 16
-  powerupVelocity: 75
+  character: {fileID: 0}
+  powerUpMessage: {fileID: 0}
+  powerUpTime: 10
+  powerupVelocity: 50
 --- !u!4 &1908600634
 Transform:
   m_ObjectHideFlags: 0
@@ -5323,8 +5300,8 @@ SceneRoots:
   - {fileID: 1993783036}
   - {fileID: 727970377}
   - {fileID: 22784356}
-  - {fileID: 1202104940}
   - {fileID: 148612955}
+  - {fileID: 1202104940}
   - {fileID: 2035268233}
   - {fileID: 371204656}
   - {fileID: 775617213}
