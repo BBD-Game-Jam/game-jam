@@ -292,13 +292,14 @@ GameObject:
   - component: {fileID: 148612957}
   - component: {fileID: 148612956}
   - component: {fileID: 148612958}
+  - component: {fileID: 148612959}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &148612955
 Transform:
   m_ObjectHideFlags: 0
@@ -414,6 +415,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &148612959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148612954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b062e47e497dbd244bd4adf2bd7e1138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityToSpawn: {fileID: 1300559526628160561, guid: 6d41abff1f613704bbd3024d367b51c7, type: 3}
+  terrainShape: {fileID: 1682307245}
 --- !u!1 &158762367
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +1000,7 @@ GameObject:
   - component: {fileID: 429131128}
   - component: {fileID: 429131132}
   - component: {fileID: 429131133}
+  - component: {fileID: 429131134}
   m_Layer: 3
   m_Name: Pingu
   m_TagString: Pingu
@@ -1184,6 +1200,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6, y: 7}
   m_EdgeRadius: 0
+--- !u!114 &429131134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429131127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b062e47e497dbd244bd4adf2bd7e1138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityToSpawn: {fileID: 1300559526628160561, guid: 6d41abff1f613704bbd3024d367b51c7, type: 3}
+  terrainShape: {fileID: 1682307245}
 --- !u!1 &495276841
 GameObject:
   m_ObjectHideFlags: 0
