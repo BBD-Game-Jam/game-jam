@@ -14,7 +14,7 @@ public class CatchPinguScript : MonoBehaviour
 
     public GameObject gameOverUI;
     private Rigidbody2D enemyRigidBody;
-    public AudioClip gameOverAudioClip;
+    private AudioClip gameOverAudioClip;
     private Vector3 spinePos;
 
 
@@ -33,6 +33,7 @@ public class CatchPinguScript : MonoBehaviour
   public float yWaveDivider = 4f;
 
   public float catchupSpeed = 60f;
+    public AudioSource gameOverAudioSource;
 
   void Start()
   {
@@ -44,7 +45,6 @@ public class CatchPinguScript : MonoBehaviour
     // StartCoroutine(AverageSpeedRoutine());
     StartCoroutine(WaveRideCoroutine());
 
-    var gameOverAudioSource = GameObject.FindGameObjectWithTag("GameOverAudio").GetComponent<AudioSource>();
     gameOverAudioClip = gameOverAudioSource.clip;
   }
 
@@ -80,13 +80,21 @@ public class CatchPinguScript : MonoBehaviour
     enemySpeed = enemyBaseSpeed;
     Vector3 predictedPosition = pingu.transform.position + new Vector3(pingu.GetComponent<Rigidbody2D>().velocity.x, pingu.GetComponent<Rigidbody2D>().velocity.y, 0);
     float distanceToPlayer = Vector3.Distance(transform.position, predictedPosition);
-    if (distanceToPlayer > 200f)
+    if (distanceToPlayer > 300f)
     {
-      enemySpeed = 60f;
+      enemySpeed = 65f;
     }
+        if (distanceToPlayer > 580f)
+        {
+            enemySpeed = 140f;
+        }
+        if (distanceToPlayer > 1000f)
+        {
+            enemySpeed = 225f;
+        }
 
 
-    float angle = Mathf.Atan2(enemyRigidBody.velocity.y, enemyRigidBody.velocity.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(enemyRigidBody.velocity.y, enemyRigidBody.velocity.x) * Mathf.Rad2Deg;
     transform.rotation = Quaternion.Euler(0, 0, angle);
     yWave = spinePos.y / yWaveDivider * yWaveSpeed * Mathf.Cos(Time.time * yWaveSpeed);
    // Debug.Log($"yWave: {yWave}");
@@ -107,23 +115,29 @@ public class CatchPinguScript : MonoBehaviour
   }
   public void gameOver()
   {
+    if(gameOverFlag==false){
     if (pingu.transform.position.x <= gameObject.transform.position.x)
     {
-      gameOverFlag = true;
+      
+          AudioSource.PlayClipAtPoint(gameOverAudioClip, transform.position);
+      
+     
+            gameOverFlag = true;
       gameOverUI.SetActive(true);
       Time.timeScale = 0f;
+    }
     }
   }
 
   void initializePosition()
   {
-    transform.position = new Vector3(pingu.transform.position.x - 70f, pingu.transform.position.y - 15f, pingu.transform.position.z);
+    transform.position = new Vector3(pingu.transform.position.x - 70f, pingu.transform.position.y, -10f);
   }
 
   Vector3 GetPositionOnSpline(float distance)
   {
     int pointCount = terrainShape.spline.GetPointCount();
-    Debug.Log($"point count : {pointCount}");
+    //Debug.Log($"point count : {pointCount}");
 
     for (int i = 0; i < pointCount - 1; i++)
     {

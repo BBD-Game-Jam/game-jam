@@ -7,11 +7,14 @@ public class Powerup : MonoBehaviour
   // Start is called before the first frame update
   public LogicScript logic;
     private RaycastHit2D hit;
+    private AudioClip powerUpClip;
 
     void Start()
   {
     logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
-  }
+        var audioSource = GameObject.FindGameObjectWithTag("PowerupCollectedAudio").GetComponent<AudioSource>();
+        powerUpClip = audioSource.clip;
+    }
 
   // Update is called once per frame
   void Update()
@@ -38,6 +41,8 @@ public class Powerup : MonoBehaviour
     int type = (int)Mathf.Round(Random.Range(0, 2));
     if (collision.gameObject.layer == 3)
     {
+            AudioSource.PlayClipAtPoint(powerUpClip, transform.position);
+            //Debug.Log("Collided with power");
       logic.Powerup(type);
             Destroy(gameObject);
         }

@@ -27,13 +27,13 @@ public class FloorCoin : MonoBehaviour
         int layerMask = ~(1 << layerToIgnore);
 
         // Perform a raycast downwards, ignoring the specified layer
-        hit = Physics2D.Raycast(new Vector2(x, y), Vector2.down, Mathf.Infinity, layerMask);
+        hit = Physics2D.Raycast(new Vector2(x, y - 0.3f), Vector2.down, Mathf.Infinity, layerMask);
         //hit = Physics2D.Raycast(new Vector2(x, y - 0.5f), Vector2.down);
         if (hit.collider != null)
         {
             //Debug.Log(y);
             y = hit.point.y;
-            gameObject.transform.position = new Vector2(x, y + 1.5f);
+            gameObject.transform.position = new Vector2(x, y + 3.5f);
         }
     }
 
@@ -44,7 +44,7 @@ public class FloorCoin : MonoBehaviour
         {
             logic.addPoints();
 
-            Debug.Log("Collected coin");
+           // Debug.Log("Collected coin");
             AudioSource.PlayClipAtPoint(coinCollected, transform.position);
             Destroy(gameObject);
         }

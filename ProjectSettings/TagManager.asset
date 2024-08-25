@@ -9,6 +9,7 @@ TagManager:
   - Logic
   - CoinCollectedAudio
   - GameOverAudio
+  - PowerupCollectedAudio
   layers:
   - Default
   - TransparentFX

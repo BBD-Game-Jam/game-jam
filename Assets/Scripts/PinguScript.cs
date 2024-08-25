@@ -10,7 +10,7 @@ public class PinguScript : MonoBehaviour
   public float maxRotationSpeed = 400f;
   public float gravityScale;
   private float initialGravity;
-  public PlayerInputActions playerControls;
+  private PlayerInputActions playerControls;
   private InputAction accelerate;
   private InputAction rotate;
 

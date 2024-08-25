@@ -30,7 +30,7 @@ public class SplashSpawnerScript : MonoBehaviour
 
             Vector2 spriteVelocity = GetComponent<Rigidbody2D>().velocity;
             float collisionAngle = Vector2.Angle(collisionNormal, spriteVelocity);
-            Debug.Log("Collision Angle: " + collisionAngle + " degrees");
+           // Debug.Log("Collision Angle: " + collisionAngle + " degrees");
             Instantiate(entityToSpawn, spawnPosition, Quaternion.Euler(0,0,collisionAngle - 90f));
         }
     }
