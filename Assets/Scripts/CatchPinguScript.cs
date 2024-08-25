@@ -30,6 +30,9 @@ public class CatchPinguScript : MonoBehaviour
   public float yWaveMagnitude = 1f;
   public float yWaveSpeed = 1f;
   private float futureSpinePos = 1f;
+  public float yWaveDivider = 4f;
+
+  public float catchupSpeed = 60f;
 
   void Start()
   {
@@ -84,7 +87,7 @@ public class CatchPinguScript : MonoBehaviour
 
     float angle = Mathf.Atan2(enemyRigidBody.velocity.y, enemyRigidBody.velocity.x) * Mathf.Rad2Deg;
     transform.rotation = Quaternion.Euler(0, 0, angle);
-    yWave = spinePos.y / 2 * yWaveSpeed * Mathf.Cos(Time.time * yWaveSpeed);
+    yWave = spinePos.y / yWaveDivider * yWaveSpeed * Mathf.Cos(Time.time * yWaveSpeed);
    // Debug.Log($"yWave: {yWave}");
 
     if (gameOverFlag)

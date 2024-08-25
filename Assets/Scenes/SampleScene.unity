@@ -336,7 +336,9 @@ MonoBehaviour:
   pausedFlag: 0
   difficulty: 1.3
   yWaveMagnitude: 10
-  yWaveSpeed: 1.25
+  yWaveSpeed: 2.04
+  yWaveDivider: 2.02
+  catchupSpeed: 60
 --- !u!212 &148612957
 SpriteRenderer:
   m_ObjectHideFlags: 0
