@@ -28,7 +28,7 @@ public class FloorCoin : MonoBehaviour
         int layerMask = ~(1 << layerToIgnore);
 
         // Perform a raycast downwards, ignoring the specified layer
-        hit = Physics2D.Raycast(new Vector2(x, y - 1f), Vector2.down, Mathf.Infinity, layerMask);
+        hit = Physics2D.Raycast(new Vector2(x, y), Vector2.down, Mathf.Infinity, layerMask);
         //hit = Physics2D.Raycast(new Vector2(x, y - 0.5f), Vector2.down);
         if (hit.collider != null && (hit.point.y > 3.5f))
         {
