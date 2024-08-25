@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FloorCoin : MonoBehaviour
@@ -27,13 +28,13 @@ public class FloorCoin : MonoBehaviour
         int layerMask = ~(1 << layerToIgnore);
 
         // Perform a raycast downwards, ignoring the specified layer
-        hit = Physics2D.Raycast(new Vector2(x, y - 0.3f), Vector2.down, Mathf.Infinity, layerMask);
+        hit = Physics2D.Raycast(new Vector2(x, y - 1f), Vector2.down, Mathf.Infinity, layerMask);
         //hit = Physics2D.Raycast(new Vector2(x, y - 0.5f), Vector2.down);
-        if (hit.collider != null)
+        if (hit.collider != null && (hit.point.y > 3.5f))
         {
             //Debug.Log(y);
             y = hit.point.y;
-            gameObject.transform.position = new Vector2(x, y + 3.5f);
+            gameObject.transform.position = new Vector2(x, y + 3.8f);
         }
     }
 

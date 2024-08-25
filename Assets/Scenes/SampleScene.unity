@@ -2207,7 +2207,7 @@ MonoBehaviour:
   spawnRate: 0
   coinSeparation: 5
   generationThresholdX: 20
-  distanceFromFloor: 7
+  distanceFromFloor: 3.5
   maxCoinSet: 7
   cam: {fileID: 519420031}
   coin: {fileID: 7172817357861472928, guid: 07eab5c4339a3704a827aa3d91cc81e8, type: 3}
@@ -4537,7 +4537,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682307243}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 292775d497bd78144b4e5ee0a73f9dce, type: 2}
   m_IncludeLayers:
